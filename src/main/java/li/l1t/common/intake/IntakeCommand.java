@@ -11,6 +11,7 @@
 package li.l1t.common.intake;
 
 import com.sk89q.intake.CommandException;
+import com.sk89q.intake.InvocationCommandException;
 import com.sk89q.intake.argument.Namespace;
 import com.sk89q.intake.dispatcher.Dispatcher;
 import com.sk89q.intake.util.auth.AuthorizationException;
@@ -52,16 +53,26 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
 
         try {
             dispatcher.call(lineBuilder.toString(), namespace, Collections.emptyList());
-        } catch (CommandException | CommandExitMessage e) {
+        } catch (CommandException e) {
             sender.sendMessage(e.getMessage());
         } catch (AuthorizationException e) {
             sender.sendMessage("§c§lFehler: §cDas darfst du nicht.");
+        } catch(InvocationCommandException e) {
+            if(e.getCause() instanceof CommandExitMessage) {
+                sender.sendMessage(e.getCause().getMessage());
+            } else {
+                handleGenericException(sender, lineBuilder, e.getCause());
+            }
         } catch (Exception e) {
-            sender.sendMessage("§4§lInterner Fehler: §c" + e.getClass().getSimpleName());
-            plugin.getLogger().log(Level.WARNING, "Exception executing command: /" + lineBuilder, e);
+            handleGenericException(sender, lineBuilder, e);
         }
 
         return true;
+    }
+
+    private void handleGenericException(CommandSender sender, StringBuilder lineBuilder, Throwable e) {
+        sender.sendMessage("§4§lInterner Fehler: §c" + e.getClass().getSimpleName());
+        plugin.getLogger().log(Level.WARNING, "Exception executing command: /" + lineBuilder, e);
     }
 
     public Plugin getPlugin() {
