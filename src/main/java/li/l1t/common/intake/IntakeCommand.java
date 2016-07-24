@@ -10,12 +10,8 @@
 
 package li.l1t.common.intake;
 
-import com.sk89q.intake.CommandException;
-import com.sk89q.intake.InvocationCommandException;
 import com.sk89q.intake.argument.Namespace;
 import com.sk89q.intake.dispatcher.Dispatcher;
-import com.sk89q.intake.util.auth.AuthorizationException;
-import li.l1t.common.intake.exception.CommandExitMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
@@ -32,16 +28,16 @@ import java.util.logging.Level;
  * @since 2016-07-23
  */
 public class IntakeCommand extends Command implements PluginIdentifiableCommand {
-    private final Plugin plugin;
+    private final CommandsManager manager;
     private final Dispatcher dispatcher;
     private final Namespace namespace = new Namespace();
 
-    public IntakeCommand(Plugin plugin, Dispatcher dispatcher,
+    public IntakeCommand(CommandsManager manager, Dispatcher dispatcher,
                          String name, List<String> aliases) {
         super(name, "The " + name + " command", "Execution error, this should not happen", aliases);
-        this.plugin = plugin;
+        this.manager = manager;
         this.dispatcher = dispatcher;
-        namespace.put(plugin.getClass(), plugin);
+        namespace.put(manager.getPlugin().getClass(), manager.getPlugin());
     }
 
     public boolean execute(CommandSender sender, String alias, String[] args) {
@@ -53,18 +49,12 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
 
         try {
             dispatcher.call(lineBuilder.toString(), namespace, Collections.emptyList());
-        } catch (CommandException e) {
-            sender.sendMessage(e.getMessage());
-        } catch (AuthorizationException e) {
-            sender.sendMessage("§c§lFehler: §cDas darfst du nicht.");
-        } catch(InvocationCommandException e) {
-            if(e.getCause() instanceof CommandExitMessage) {
-                sender.sendMessage(e.getCause().getMessage());
-            } else {
-                handleGenericException(sender, lineBuilder, e.getCause());
-            }
         } catch (Exception e) {
-            handleGenericException(sender, lineBuilder, e);
+            String translatedMessage = manager.getErrorTranslator()
+                    .translateAndLogIfNecessary(e, lineBuilder.toString());
+            if (translatedMessage != null) {
+                sender.sendMessage(translatedMessage);
+            }
         }
 
         return true;
@@ -72,11 +62,11 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
 
     private void handleGenericException(CommandSender sender, StringBuilder lineBuilder, Throwable e) {
         sender.sendMessage("§4§lInterner Fehler: §c" + e.getClass().getSimpleName());
-        plugin.getLogger().log(Level.WARNING, "Exception executing command: /" + lineBuilder, e);
+        getPlugin().getLogger().log(Level.WARNING, "Exception executing command: /" + lineBuilder, e);
     }
 
     public Plugin getPlugin() {
-        return plugin;
+        return manager.getPlugin();
     }
 
     public Dispatcher getDispatcher() {

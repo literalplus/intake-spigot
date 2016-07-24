@@ -17,6 +17,7 @@ import com.sk89q.intake.parametric.ParametricBuilder;
 import com.sk89q.intake.parametric.binder.BindingBuilder;
 import com.sk89q.intake.parametric.provider.PrimitivesModule;
 import li.l1t.common.CommandRegistrationManager;
+import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.provider.CommandSenderProvider;
 import li.l1t.common.intake.provider.OnlinePlayer;
 import li.l1t.common.intake.provider.OnlinePlayerProvider;
@@ -44,9 +45,11 @@ public class CommandsManager {
     private final ParametricBuilder builder = new ParametricBuilder(Intake.createInjector());
     private final CommonInjectorModule injectorModule;
     private final CommandGraph commandGraph = new CommandGraph().builder(builder);
+    private ErrorTranslator errorTranslator;
 
-    public CommandsManager(Plugin plugin) {
+    public CommandsManager(Plugin plugin, ErrorTranslator errorTranslator) {
         this.plugin = plugin;
+        this.errorTranslator = errorTranslator;
         builder.getInjector().install(new PrimitivesModule());
         builder.getInjector().install(injectorModule = new CommonInjectorModule());
         builder.setAuthorizer(new CommandSenderAuthorizer());
@@ -103,6 +106,10 @@ public class CommandsManager {
     public IntakeCommand getCommand(String commandName) {
         CommandBuilder builder = commandBuilders.get(commandName);
         return builder == null ? null : builder.getCommand();
+    }
+
+    public ErrorTranslator getErrorTranslator() {
+        return errorTranslator;
     }
 
     public Plugin getPlugin() {

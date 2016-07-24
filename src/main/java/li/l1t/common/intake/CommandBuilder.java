@@ -16,6 +16,8 @@ import com.sk89q.intake.dispatcher.Dispatcher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Provides a fluent builder interface for Intake commands. Creates an Intake context for a
@@ -30,6 +32,7 @@ public class CommandBuilder {
     private String name;
     private List<String> aliases;
     private IntakeCommand command;
+    private ResourceBundle messages;
 
     public CommandBuilder(CommandsManager manager) {
         this.manager = manager;
@@ -42,6 +45,11 @@ public class CommandBuilder {
 
     public CommandBuilder withAliases(String... aliases) {
         this.aliases = Arrays.asList(aliases);
+        return this;
+    }
+
+    public CommandBuilder withLocale(Locale locale) {
+        this.messages = ResourceBundle.getBundle("Intake-Spigot", locale);
         return this;
     }
 
@@ -65,7 +73,7 @@ public class CommandBuilder {
         Preconditions.checkNotNull(dispatcher, "dispatcher");
         Preconditions.checkNotNull(name, "name");
         Preconditions.checkNotNull(aliases, "aliases");
-        this.command = new IntakeCommand(manager.getPlugin(), dispatcher, name, aliases);
+        this.command = new IntakeCommand(manager, dispatcher, name, aliases);
         manager.applyNamespaceTemplateTo(command.getNamespace());
         return this;
     }
