@@ -20,6 +20,8 @@ import li.l1t.common.CommandRegistrationManager;
 import li.l1t.common.intake.provider.CommandSenderProvider;
 import li.l1t.common.intake.provider.OnlinePlayer;
 import li.l1t.common.intake.provider.OnlinePlayerProvider;
+import li.l1t.common.intake.provider.PlayerSenderProvider;
+import li.l1t.common.intake.provider.Sender;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -61,6 +63,9 @@ public class CommandsManager {
         injectorModule.bind(Player.class)
                 .annotatedWith(OnlinePlayer.class)
                 .toProvider(new OnlinePlayerProvider(plugin.getServer()));
+        injectorModule.bind(Player.class)
+                .annotatedWith(Sender.class)
+                .toProvider(new PlayerSenderProvider());
         injectorModule.bind(CommandSender.class)
                 .toProvider(new CommandSenderProvider());
     }
