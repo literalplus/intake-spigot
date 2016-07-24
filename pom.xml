@@ -84,6 +84,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <id>shade</id>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <artifactSet>
                         <includes>
