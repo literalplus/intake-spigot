@@ -79,5 +79,21 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>li.l1t.common:intake-spigot</include>
+                            <include>com.sk89q.intake:intake</include>
+                        </includes>
+                    </artifactSet>
+                    <shadedClassifierName>plugin</shadedClassifierName>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
