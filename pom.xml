@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2013 - 2015 xxyy (Philipp Nowak; devnull@nowak-at.net). All rights reserved.
+  ~
+  ~ Any usage, including, but not limited to, compiling, running, redistributing, printing,
+  ~  copying and reverse-engineering is strictly prohibited without explicit written permission
+  ~  from the original author and may result in legal steps being taken.
+  ~
+  ~ See the included LICENSE file (core/src/main/resources) or email xxyy98+xyclicense@gmail.com for details.
+  -->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>li.l1t.common</groupId>
+    <artifactId>intake-spigot</artifactId>
+    <version>4.2-SNAPSHOT</version>
+
+    <name>XYC Intake Bridge for Spigot</name>
+    <description>
+        Intake is an awesome library, but damn is it abstract! Because of this, the XYC Intake
+        Bridge provides integration for Spigot, so that it can easily be used from Spigot plugins.
+    </description>
+
+    <scm>
+        <connection>scm:git:git@bitbucket.org:xxyy/intake-spigot.git</connection>
+        <developerConnection>scm:git:git@bitbucket.org:xxyy/intake-spigot.git</developerConnection>
+        <url>https://bitbucket.org/xxyy/intake-spigot/</url>
+    </scm>
+
+    <ciManagement>
+        <system>jenkins</system>
+        <url>https://ci.l1t.li/job/xyc~intake-spigot/</url>
+    </ciManagement>
+
+    <distributionManagement>
+        <downloadUrl>https://ci.l1t.li/job/xyc~intake-spigot/</downloadUrl>
+        <repository>
+            <id>xxyy-repo</id>
+            <url>https://repo.l1t.li/xxyy-public/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- maven-release-plugin -->
+        <ignoreSnapshots>true</ignoreSnapshots>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>maven.sk89q.com</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sk89q.intake</groupId>
+            <artifactId>intake</artifactId>
+            <version>4.2-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>intake-spigot</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>

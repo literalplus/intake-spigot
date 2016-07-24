@@ -1,0 +1,16 @@
+# Copyright (c) 2013 - 2016 xxyy (Philipp Nowak; devnull@nowak-at.net). All rights reserved.
+#
+# Any usage, including, but not limited to, compiling, running, redistributing, printing,
+#  copying and reverse-engineering is strictly prohibited without explicit written permission
+#  from the original author and may result in legal steps being taken.
+#
+# See the included LICENSE file (src/main/resources) or email xxyy98+xyclicense@gmail.com for details.
+
+name: XYC-Intake
+version: ${project.version}
+description: Provides integration between the Intake command framework and Spigot
+author: Literallie
+website: https://l1t.li/
+load: STARTUP
+
+main: li.l1t.common.IntakePlugin
