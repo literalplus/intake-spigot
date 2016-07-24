@@ -10,7 +10,6 @@
 
 package li.l1t.common.intake.provider;
 
-import com.google.common.collect.ImmutableList;
 import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.parametric.Provider;
@@ -24,6 +23,7 @@ import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 /**
@@ -61,7 +61,7 @@ public class OnlinePlayerProvider implements Provider<Player> {
         return player;
     }
 
-    protected Player getPlayerFromUUIDOrNull(String input) {
+    private Player getPlayerFromUUIDOrNull(String input) {
         if (UUIDHelper.isValidUUID(input)) {
             UUID uuid = UUIDHelper.getFromString(input);
             Player player = server.getPlayer(uuid);
@@ -78,6 +78,9 @@ public class OnlinePlayerProvider implements Provider<Player> {
 
     @Override
     public List<String> getSuggestions(String prefix) {
-        return ImmutableList.of();
+        return server.getOnlinePlayers().stream()
+                .map(Player::getName)
+                .filter(name -> name.startsWith(prefix))
+                .collect(Collectors.toList());
     }
 }
