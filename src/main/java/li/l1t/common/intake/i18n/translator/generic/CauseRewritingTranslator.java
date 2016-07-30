@@ -1,4 +1,4 @@
-package li.l1t.common.intake.i18n.translator.impl;
+package li.l1t.common.intake.i18n.translator.generic;
 
 import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
@@ -12,7 +12,7 @@ import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
  */
 public class CauseRewritingTranslator<E extends Exception> extends AbstractExceptionTranslator<E> {
     public CauseRewritingTranslator(Class<? extends E> exceptionType) {
-        super(exceptionType);
+        super(exceptionType, false);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class CauseRewritingTranslator<E extends Exception> extends AbstractExcep
             return root.translateAndLogIfNecessary((Exception) cause, commandLine);
         } else {
             return root.translate(
-                    "Internal Error With Cause",
+                    "InternalError:withMessageAndCause",
                     exception.getClass().getSimpleName(),
                     cause.getClass().getSimpleName()
             );

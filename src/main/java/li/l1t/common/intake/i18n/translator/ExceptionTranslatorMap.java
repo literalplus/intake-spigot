@@ -1,7 +1,7 @@
 package li.l1t.common.intake.i18n.translator;
 
 import li.l1t.common.intake.i18n.ErrorTranslator;
-import li.l1t.common.intake.i18n.translator.impl.FallbackTranslator;
+import li.l1t.common.intake.i18n.translator.generic.FallbackTranslator;
 
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -33,7 +33,7 @@ public class ExceptionTranslatorMap
         if(translator.needsLogging(exception)) {
             root.getManager().getPlugin().getLogger().log(
                     Level.WARNING,
-                    root.translate("Log Message", commandLine),
+                    root.translate("Misc.ExceptionLogMessage", commandLine),
                     exception
             );
         }

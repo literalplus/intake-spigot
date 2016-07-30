@@ -23,7 +23,7 @@ public abstract class AbstractExceptionTranslator<E extends Exception> implement
 
     @Override
     public String translate(E exception, ErrorTranslator root, String commandLine) {
-        return root.translate("Internal Error", exception.getClass().getSimpleName());
+        return root.translate("InternalError:withMessage", exception.getClass().getSimpleName());
     }
 
     @Override

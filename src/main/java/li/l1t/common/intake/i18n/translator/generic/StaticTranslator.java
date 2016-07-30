@@ -1,4 +1,4 @@
-package li.l1t.common.intake.i18n.translator.impl;
+package li.l1t.common.intake.i18n.translator.generic;
 
 import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;

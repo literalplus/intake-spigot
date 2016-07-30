@@ -3,7 +3,7 @@ package li.l1t.common.intake.i18n;
 import li.l1t.common.intake.CommandsManager;
 import li.l1t.common.intake.i18n.translator.ExceptionTranslator;
 import li.l1t.common.intake.i18n.translator.ExceptionTranslatorMap;
-import li.l1t.common.intake.i18n.translator.impl.DefaultTranslators;
+import li.l1t.common.intake.i18n.translators.DefaultTranslators;
 
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -55,11 +55,15 @@ public class ErrorTranslator {
     }
 
     public String translate(String key, Object... arguments) {
-        if (messages.containsKey(key)) {
+        if (hasTranslationFor(key)) {
             return new MessageFormat(messages.getString(key), messages.getLocale())
                     .format(arguments, new StringBuffer(), null).toString();
         } else {
             return key;
         }
+    }
+
+    public boolean hasTranslationFor(String key) {
+        return key != null && messages.containsKey(key);
     }
 }
