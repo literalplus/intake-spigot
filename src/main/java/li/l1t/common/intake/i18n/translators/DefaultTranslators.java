@@ -10,6 +10,8 @@ import li.l1t.common.intake.i18n.translator.generic.CauseRewritingTranslator;
 import li.l1t.common.intake.i18n.translator.generic.PatternBasedMessageTranslator;
 import li.l1t.common.intake.i18n.translator.generic.StaticTranslator;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 /**
@@ -29,6 +31,8 @@ public class DefaultTranslators {
         registerAuthorizationExceptionWith(root);
         registerInvocationCommandExceptionWith(root);
         registerCommandExceptionsWith(root);
+        registerSQLExceptionWith(root);
+        registerIOExceptionWith(root);
     }
 
     private static void registerCommandExitMessageWith(ErrorTranslator root) {
@@ -59,6 +63,16 @@ public class DefaultTranslators {
                 .withBaseKey("CommandException")
                 .withPattern(Pattern.compile("Value flag '(.+)' already given"), ":valueFlagDupe")
                 .withPattern(Pattern.compile("No value specified for the '-(.)' flag\\."), ":flagMissingValue")
+                .registerWith(root);
+    }
+
+    private static void registerSQLExceptionWith(ErrorTranslator root) {
+        new StaticTranslator<>(SQLException.class, "SQLException", true)
+                .registerWith(root);
+    }
+
+    private static void registerIOExceptionWith(ErrorTranslator root) {
+        new StaticTranslator<>(IOException.class, "IOException", true)
                 .registerWith(root);
     }
 
