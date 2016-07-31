@@ -41,19 +41,47 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
     }
 
     public boolean execute(CommandSender sender, String alias, String[] args) {
-        namespace.put(CommandSender.class, sender);
+        String argLine = convertToArgLine(alias, args);
+        if(isHelpSubCommand(argLine)) {
+            handleHelpSubCommand(sender, argLine);
+        } else {
+            namespace.put(CommandSender.class, sender);
+            callDispatcher(sender, argLine);
+        }
+        return true;
+    }
+
+    private String convertToArgLine(String alias, String[] args) {
         StringBuilder lineBuilder = new StringBuilder(alias);
         for (String arg : args) {
             lineBuilder.append(" ").append(arg);
         }
-        String argLine = lineBuilder.toString();
+        return lineBuilder.toString();
+    }
+
+    private boolean isHelpSubCommand(String argLine) {
+        return argLine.endsWith(" help");
+    }
+
+    private void handleHelpSubCommand(CommandSender sender, String argLine) {
+        String rawArgLine = argLine.replace(" help", "");
+        if(isHelpSubCommand(rawArgLine)) {
+            sendNestedHelpError(sender);
+        } else {
+            sendHelp(sender, rawArgLine);
+        }
+    }
+
+    private void sendNestedHelpError(CommandSender sender) {
+        sender.sendMessage(manager.getErrorTranslator().translate("Help.Nested"));
+    }
+
+    private void callDispatcher(CommandSender sender, String argLine) {
         try {
             dispatcher.call(argLine, namespace, Collections.emptyList());
         } catch (Exception e) {
             handleCommandException(sender, argLine, e);
         }
-
-        return true;
     }
 
     private void handleCommandException(CommandSender sender, String argLine, Exception e) {
@@ -67,12 +95,16 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
 
     private void sendHelpIfRequested(CommandSender sender, String argLine, Exception e) {
         if(isHelpRequestedBy(e)) {
-            manager.getHelpProvider().sendHelpOfTo(sender, argLine);
+            sendHelp(sender, argLine);
         }
     }
 
     private boolean isHelpRequestedBy(Exception e) {
         return e instanceof InvalidUsageException && ((InvalidUsageException) e).isFullHelpSuggested();
+    }
+
+    private void sendHelp(CommandSender sender, String argLine) {
+        manager.getHelpProvider().sendHelpOfTo(sender, argLine);
     }
 
     public Plugin getPlugin() {
