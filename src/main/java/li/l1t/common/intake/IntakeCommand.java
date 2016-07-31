@@ -10,6 +10,7 @@
 
 package li.l1t.common.intake;
 
+import com.sk89q.intake.InvalidUsageException;
 import com.sk89q.intake.argument.Namespace;
 import com.sk89q.intake.dispatcher.Dispatcher;
 import org.bukkit.command.Command;
@@ -19,7 +20,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * A command implementation that forwards all calls to an Intake dispatcher.
@@ -46,23 +46,33 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
         for (String arg : args) {
             lineBuilder.append(" ").append(arg);
         }
-
+        String argLine = lineBuilder.toString();
         try {
-            dispatcher.call(lineBuilder.toString(), namespace, Collections.emptyList());
+            dispatcher.call(argLine, namespace, Collections.emptyList());
         } catch (Exception e) {
-            String translatedMessage = manager.getErrorTranslator()
-                    .translateAndLogIfNecessary(e, lineBuilder.toString());
-            if (translatedMessage != null) {
-                sender.sendMessage(translatedMessage);
-            }
+            handleCommandException(sender, argLine, e);
         }
 
         return true;
     }
 
-    private void handleGenericException(CommandSender sender, StringBuilder lineBuilder, Throwable e) {
-        sender.sendMessage("§4§lInterner Fehler: §c" + e.getClass().getSimpleName());
-        getPlugin().getLogger().log(Level.WARNING, "Exception executing command: /" + lineBuilder, e);
+    private void handleCommandException(CommandSender sender, String argLine, Exception e) {
+        String translatedMessage = manager.getErrorTranslator()
+                .translateAndLogIfNecessary(e, argLine);
+        if (translatedMessage != null) {
+            sender.sendMessage(translatedMessage);
+        }
+        sendHelpIfRequested(sender, argLine, e);
+    }
+
+    private void sendHelpIfRequested(CommandSender sender, String argLine, Exception e) {
+        if(isHelpRequestedBy(e)) {
+            manager.getHelpProvider().sendHelpOfTo(sender, argLine);
+        }
+    }
+
+    private boolean isHelpRequestedBy(Exception e) {
+        return e instanceof InvalidUsageException && ((InvalidUsageException) e).isFullHelpSuggested();
     }
 
     public Plugin getPlugin() {

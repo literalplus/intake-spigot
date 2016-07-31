@@ -17,6 +17,7 @@ import com.sk89q.intake.parametric.ParametricBuilder;
 import com.sk89q.intake.parametric.binder.BindingBuilder;
 import com.sk89q.intake.parametric.provider.PrimitivesModule;
 import li.l1t.common.CommandRegistrationManager;
+import li.l1t.common.intake.help.CommandHelpProvider;
 import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.provider.CommandSenderProvider;
 import li.l1t.common.intake.provider.OnlinePlayer;
@@ -45,6 +46,7 @@ public class CommandsManager {
     private final ParametricBuilder builder = new ParametricBuilder(Intake.createInjector());
     private final CommonInjectorModule injectorModule;
     private final CommandGraph commandGraph = new CommandGraph().builder(builder);
+    private final CommandHelpProvider helpProvider = new CommandHelpProvider(this);
     private ErrorTranslator errorTranslator;
 
     public CommandsManager(Plugin plugin, ErrorTranslator errorTranslator) {
@@ -126,5 +128,9 @@ public class CommandsManager {
 
     public CommandGraph getCommandGraph() {
         return commandGraph;
+    }
+
+    public CommandHelpProvider getHelpProvider() {
+        return helpProvider;
     }
 }
