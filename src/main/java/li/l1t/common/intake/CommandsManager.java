@@ -49,9 +49,9 @@ public class CommandsManager {
     private final CommandHelpProvider helpProvider = new CommandHelpProvider(this);
     private ErrorTranslator errorTranslator;
 
-    public CommandsManager(Plugin plugin, ErrorTranslator errorTranslator) {
+    public CommandsManager(Plugin plugin) {
         this.plugin = plugin;
-        this.errorTranslator = errorTranslator;
+        this.errorTranslator = new ErrorTranslator(this);
         builder.getInjector().install(new PrimitivesModule());
         builder.getInjector().install(injectorModule = new CommonInjectorModule());
         builder.setAuthorizer(new CommandSenderAuthorizer());
