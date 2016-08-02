@@ -79,7 +79,7 @@ class CommandHelpExtractor {
             appendNoSuchCommandError();
             return;
         }
-        appendDirectDescription(currentMapping);
+        //appendDirectDescription(currentMapping);
         if (currentMapping.getCallable() instanceof Dispatcher) {
             currentDispatcher = (Dispatcher) currentMapping.getCallable();
             appendSelectedSubCommands();
@@ -131,7 +131,7 @@ class CommandHelpExtractor {
     }
 
     private ComponentBuilder startUsageMessage(CommandMapping mapping, Description description) {
-        String argLine = argStack + mapping.getPrimaryAlias() + " ";
+        String argLine = this.argLine + mapping.getPrimaryAlias() + " ";
         ClickEvent clickEvent = createUsageSuggestEvent(argLine);
         HoverEvent hoverEvent = createUsageSuggestTooltip(argLine);
         return new ComponentBuilder(argLine + description.getUsage() + " ")
