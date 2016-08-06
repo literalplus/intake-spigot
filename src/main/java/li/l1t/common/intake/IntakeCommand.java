@@ -10,6 +10,8 @@
 
 package li.l1t.common.intake;
 
+import com.google.common.collect.ImmutableList;
+import com.sk89q.intake.CommandException;
 import com.sk89q.intake.InvalidUsageException;
 import com.sk89q.intake.argument.Namespace;
 import com.sk89q.intake.dispatcher.Dispatcher;
@@ -42,13 +44,17 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
 
     public boolean execute(CommandSender sender, String alias, String[] args) {
         String argLine = convertToArgLine(alias, args);
-        if(isHelpSubCommand(argLine)) {
+        if (isHelpSubCommand(argLine)) {
             handleHelpSubCommand(sender, argLine);
         } else {
-            namespace.put(CommandSender.class, sender);
+            populateNamespaceFor(sender);
             callDispatcher(sender, argLine);
         }
         return true;
+    }
+
+    private void populateNamespaceFor(CommandSender sender) {
+        namespace.put(CommandSender.class, sender);
     }
 
     private String convertToArgLine(String alias, String[] args) {
@@ -65,7 +71,7 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
 
     private void handleHelpSubCommand(CommandSender sender, String argLine) {
         String rawArgLine = argLine.replace(" help", "");
-        if(isHelpSubCommand(rawArgLine)) {
+        if (isHelpSubCommand(rawArgLine)) {
             sendNestedHelpError(sender);
         } else {
             sendHelp(sender, rawArgLine);
@@ -94,7 +100,7 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
     }
 
     private void sendHelpIfRequested(CommandSender sender, String argLine, Exception e) {
-        if(isHelpRequestedBy(e)) {
+        if (isHelpRequestedBy(e)) {
             sendHelp(sender, argLine);
         }
     }
@@ -117,5 +123,15 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
 
     public Namespace getNamespace() {
         return namespace;
+    }
+
+    @Override
+    public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
+        try {
+            populateNamespaceFor(sender);
+            return dispatcher.getSuggestions(convertToArgLine(alias, args), namespace);
+        } catch (CommandException e) {
+            return ImmutableList.of();
+        }
     }
 }
