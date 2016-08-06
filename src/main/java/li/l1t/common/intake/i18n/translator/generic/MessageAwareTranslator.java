@@ -6,7 +6,8 @@ package li.l1t.common.intake.i18n.translator.generic;
  * <p>
  * If cause and message are both null, the exception is also logged to allow further
  * diagnostics. Without any message, it would be impossible to say what kind of error the
- * user encountered.
+ * user encountered. If the message is non-null, and the exception has a cause, the full stack
+ * trace is logged for the same reason.
  * </p>
  *
  * @author <a href="http://xxyy.github.io/">xxyy</a>
@@ -32,6 +33,7 @@ public class MessageAwareTranslator<E extends Exception> extends StaticTranslato
 
     @Override
     public boolean needsLogging(E exception) {
-        return exception.getLocalizedMessage() == null && exception.getCause() == null;
+        return (exception.getLocalizedMessage() == null) && (exception.getCause() == null) ||
+                (exception.getCause() != null);
     }
 }
