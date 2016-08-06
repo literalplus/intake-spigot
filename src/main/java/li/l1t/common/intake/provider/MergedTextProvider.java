@@ -7,6 +7,7 @@ import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.parametric.Provider;
 import com.sk89q.intake.parametric.ProvisionException;
 import com.sk89q.intake.parametric.annotation.Validate;
+import li.l1t.common.intake.provider.annotation.Colored;
 import li.l1t.common.intake.provider.annotation.Merged;
 import net.md_5.bungee.api.ChatColor;
 
@@ -43,41 +44,38 @@ public class MergedTextProvider implements Provider<String> {
 
     private String processText(String text, List<? extends Annotation> modifiers) throws ArgumentParseException, ProvisionException {
         validateRegExIfPresent(text, modifiers);
-        text = processMergedAnnotationFeaturesFor(text, modifiers);
+        text = processColoredFor(text, modifiers);
         return text;
     }
 
-    private String processMergedAnnotationFeaturesFor(String text, List<? extends Annotation> modifiers) throws ProvisionException {
-        Merged annotation = getMergedAnnotationFrom(modifiers);
-        if (annotation.translateColors()) {
+    private String processColoredFor(String text, List<? extends Annotation> modifiers) throws ProvisionException {
+        Colored annotation = getAnnotationFrom(modifiers, Colored.class);
+        if (annotation != null) {
             text = ChatColor.translateAlternateColorCodes('&', text);
         }
         return text;
     }
 
-    private Merged getMergedAnnotationFrom(List<? extends Annotation> modifiers) throws ProvisionException {
-        return modifiers.stream()
-                .filter(mod -> mod instanceof Merged)
-                .map(mod -> (Merged) mod)
-                .findFirst()
-                .orElseThrow(() -> new ProvisionException("Missing @Merged"));
-    }
-
-    //Adapted from Intake StringProvider - https://github.com/sk89q/Intake is licensed under the LGPL (See /LICENSE.txt)
-    protected static void validateRegExIfPresent(String text, List<? extends Annotation> modifiers) throws ArgumentParseException {
-        for (Annotation modifier : modifiers) {
-            if (modifier instanceof Validate) {
-                Validate validate = (Validate) modifier;
-                if (!validate.regex().isEmpty() && !text.matches(validate.regex())) {
-                    throw new ArgumentParseException(
-                            String.format(
-                                    "The given text doesn't match the right format (technically speaking, the 'format' is %s)",
-                                    validate.regex()));
-                }
-            }
+    //Inspired by from Intake StringProvider - https://github.com/sk89q/Intake is licensed under the LGPL (See /LICENSE.txt)
+    protected void validateRegExIfPresent(String text, List<? extends Annotation> modifiers) throws ArgumentParseException, ProvisionException {
+        Validate validate = getAnnotationFrom(modifiers, Validate.class);
+        if (validate != null && !validate.regex().isEmpty() && !text.matches(validate.regex())) {
+            throw new ArgumentParseException(
+                    String.format(
+                            "The given text doesn't match the right format (technically speaking, the 'format' is %s)",
+                            validate.regex()));
         }
     }
-    //End Adapted from
+    //End Inspired by
+
+    @SuppressWarnings("unchecked")
+    private <A extends Annotation> A getAnnotationFrom(List<? extends Annotation> modifiers,
+                                                       Class<? extends A> clazz) throws ProvisionException {
+        return modifiers.stream()
+                .filter(mod -> clazz.isAssignableFrom(mod.getClass()))
+                .map(mod -> (A) mod)
+                .findFirst().orElse(null);
+    }
 
     @Override
     public List<String> getSuggestions(String prefix) {
