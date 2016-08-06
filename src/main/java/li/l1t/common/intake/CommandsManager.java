@@ -20,9 +20,11 @@ import li.l1t.common.CommandRegistrationManager;
 import li.l1t.common.intake.help.CommandHelpProvider;
 import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.provider.CommandSenderProvider;
-import li.l1t.common.intake.provider.annotation.OnlinePlayer;
+import li.l1t.common.intake.provider.MergedTextProvider;
 import li.l1t.common.intake.provider.OnlinePlayerProvider;
 import li.l1t.common.intake.provider.PlayerSenderProvider;
+import li.l1t.common.intake.provider.annotation.Merged;
+import li.l1t.common.intake.provider.annotation.OnlinePlayer;
 import li.l1t.common.intake.provider.annotation.Sender;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -73,6 +75,9 @@ public class CommandsManager {
                 .toProvider(new PlayerSenderProvider());
         injectorModule.bind(CommandSender.class)
                 .toProvider(new CommandSenderProvider());
+        injectorModule.bind(String.class)
+                .annotatedWith(Merged.class)
+                .toProvider(new MergedTextProvider());
     }
 
     public void putIntoNamespace(Object key, Object value) {
