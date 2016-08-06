@@ -1,4 +1,4 @@
-package li.l1t.common.intake.provider;
+package li.l1t.common.intake.provider.annotation;
 
 import com.sk89q.intake.parametric.annotation.Classifier;
 

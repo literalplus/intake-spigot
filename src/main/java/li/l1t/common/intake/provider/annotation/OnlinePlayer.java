@@ -8,7 +8,7 @@
  * See the included LICENSE file (core/src/main/resources) or email xxyy98+xyclicense@gmail.com for details.
  */
 
-package li.l1t.common.intake.provider;
+package li.l1t.common.intake.provider.annotation;
 
 import com.sk89q.intake.parametric.annotation.Classifier;
 
