@@ -4,9 +4,11 @@ import com.sk89q.intake.CommandException;
 import com.sk89q.intake.InvocationCommandException;
 import com.sk89q.intake.parametric.ProvisionException;
 import com.sk89q.intake.util.auth.AuthorizationException;
+import li.l1t.common.intake.exception.CommandArgumentException;
 import li.l1t.common.intake.exception.CommandExitMessage;
 import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.translator.generic.CauseRewritingTranslator;
+import li.l1t.common.intake.i18n.translator.generic.MessageAwareTranslator;
 import li.l1t.common.intake.i18n.translator.generic.PatternBasedMessageTranslator;
 import li.l1t.common.intake.i18n.translator.generic.StaticTranslator;
 
@@ -27,18 +29,24 @@ public class DefaultTranslators {
     }
 
     public static void registerAllWith(ErrorTranslator root) {
-        registerCommandExitMessageWith(root);
+        registerXYCIntakeExceptionsWith(root);
+        registerIntakeExceptionsWith(root);
+        registerSQLExceptionWith(root);
+        registerIOExceptionWith(root);
+        registerIllegalArgumentWith(root);
+        registerNullPointerWith(root);
+    }
+
+    private static void registerXYCIntakeExceptionsWith(ErrorTranslator root) {
+        new MessageAwareTranslator<>("ExitMessage", CommandExitMessage.class).registerWith(root);
+        new MessageAwareTranslator<>("CommandArgumentException", CommandArgumentException.class)
+                .registerWith(root);
+    }
+
+    private static void registerIntakeExceptionsWith(ErrorTranslator root) {
         registerAuthorizationExceptionWith(root);
         registerInvocationCommandExceptionWith(root);
         registerCommandExceptionsWith(root);
-        registerSQLExceptionWith(root);
-        registerIOExceptionWith(root);
-    }
-
-    private static void registerCommandExitMessageWith(ErrorTranslator root) {
-        new StaticTranslator<>(CommandExitMessage.class, "ExitMessage", false)
-                .withArgument(CommandExitMessage::getLocalizedMessage)
-                .registerWith(root);
     }
 
     private static void registerAuthorizationExceptionWith(ErrorTranslator root) {
@@ -76,4 +84,11 @@ public class DefaultTranslators {
                 .registerWith(root);
     }
 
+    private static void registerIllegalArgumentWith(ErrorTranslator root) {
+        new MessageAwareTranslator<>("IllegalArgument", IllegalArgumentException.class).registerWith(root);
+    }
+
+    private static void registerNullPointerWith(ErrorTranslator root) {
+        new MessageAwareTranslator<>("NullPointer", NullPointerException.class).registerWith(root);
+    }
 }
