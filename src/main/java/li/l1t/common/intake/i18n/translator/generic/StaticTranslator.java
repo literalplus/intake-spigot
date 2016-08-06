@@ -38,7 +38,7 @@ public class StaticTranslator<E extends Exception> extends AbstractExceptionTran
         return this;
     }
 
-    public final StaticTranslator<E> withTwoArguments(Function<? super E, Object> function1,
+    public StaticTranslator<E> withTwoArguments(Function<? super E, Object> function1,
                                                       Function<? super E, Object> function2) {
 
         this.argumentFunction = e -> new Object[]{function1.apply(e), function2.apply(e)};
