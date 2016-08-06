@@ -35,6 +35,7 @@ public class DefaultTranslators {
         registerIOExceptionWith(root);
         registerIllegalArgumentWith(root);
         registerNullPointerWith(root);
+        registerIllegalStateWith(root);
     }
 
     private static void registerXYCIntakeExceptionsWith(ErrorTranslator root) {
@@ -90,5 +91,9 @@ public class DefaultTranslators {
 
     private static void registerNullPointerWith(ErrorTranslator root) {
         new MessageAwareTranslator<>("NullPointer", NullPointerException.class).registerWith(root);
+    }
+
+    private static void registerIllegalStateWith(ErrorTranslator root) {
+        new MessageAwareTranslator<>("IllegalState", IllegalStateException.class).registerWith(root);
     }
 }
