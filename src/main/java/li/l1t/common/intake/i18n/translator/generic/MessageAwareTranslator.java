@@ -12,8 +12,8 @@ package li.l1t.common.intake.i18n.translator.generic;
  * @author <a href="http://xxyy.github.io/">xxyy</a>
  * @since 2016-08-06
  */
-public class MessageAwareTranslator extends StaticTranslator<Exception> {
-    public MessageAwareTranslator(String messageKey, Class<Exception> exceptionType) {
+public class MessageAwareTranslator<E extends Exception> extends StaticTranslator<E> {
+    public MessageAwareTranslator(String messageKey, Class<? extends E> exceptionType) {
         super(exceptionType, messageKey, false);
         initArgumentProvider();
     }
@@ -31,7 +31,7 @@ public class MessageAwareTranslator extends StaticTranslator<Exception> {
     }
 
     @Override
-    public boolean needsLogging(Exception exception) {
+    public boolean needsLogging(E exception) {
         return exception.getLocalizedMessage() == null && exception.getCause() == null;
     }
 }
