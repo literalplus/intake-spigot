@@ -13,8 +13,8 @@ package li.l1t.common.intake.i18n.translator.generic;
  * @since 2016-08-06
  */
 public class MessageAwareTranslator extends StaticTranslator<Exception> {
-    public MessageAwareTranslator(String messageKey) {
-        super(Exception.class, messageKey, false);
+    public MessageAwareTranslator(String messageKey, Class<Exception> exceptionType) {
+        super(exceptionType, messageKey, false);
     }
 
     private void initArgumentProvider() {
