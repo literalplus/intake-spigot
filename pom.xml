@@ -30,11 +30,11 @@
 
     <ciManagement>
         <system>jenkins</system>
-        <url>https://ci.l1t.li/job/xyc~intake-spigot/</url>
+        <url>https://ci.l1t.li/job/public~intake-spigot/</url>
     </ciManagement>
 
     <distributionManagement>
-        <downloadUrl>https://ci.l1t.li/job/xyc~intake-spigot/</downloadUrl>
+        <downloadUrl>https://ci.l1t.li/job/public~intake-spigot/</downloadUrl>
         <repository>
             <id>xxyy-repo</id>
             <url>https://repo.l1t.li/xxyy-public/</url>
