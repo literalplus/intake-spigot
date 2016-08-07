@@ -54,6 +54,10 @@
             <id>maven.sk89q.com</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
+        <repository>
+            <id>xxyy-public</id>
+            <url>https://repo.l1t.li/xxyy-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -64,10 +68,17 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.sk89q.intake</groupId>
             <artifactId>intake</artifactId>
             <version>4.2-SNAPSHOT</version>
+        </dependency>-->
+
+        <!-- custom fork with some fixes; for now -->
+        <dependency>
+            <groupId>com.sk89q.intake</groupId>
+            <artifactId>intake</artifactId>
+            <version>xxyy-1f9714</version>
         </dependency>
     </dependencies>
 
