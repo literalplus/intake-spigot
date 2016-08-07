@@ -54,10 +54,11 @@ public class CommandsManager {
     public CommandsManager(Plugin plugin) {
         this.plugin = plugin;
         this.errorTranslator = new ErrorTranslator(this);
-        builder.getInjector().install(injectorModule = new CommonInjectorModule());
+        injectorModule = new CommonInjectorModule();
+        bindDefaultInjections();
+        builder.getInjector().install(injectorModule);
         builder.getInjector().install(new PrimitivesModule());
         builder.setAuthorizer(new CommandSenderAuthorizer());
-        bindDefaultInjections();
     }
 
     private void bindDefaultInjections() {
