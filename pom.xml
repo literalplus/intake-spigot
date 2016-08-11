@@ -23,9 +23,9 @@
     </description>
 
     <scm>
-        <connection>scm:git:git@bitbucket.org:xxyy/intake-spigot.git</connection>
-        <developerConnection>scm:git:git@bitbucket.org:xxyy/intake-spigot.git</developerConnection>
-        <url>https://bitbucket.org/xxyy/intake-spigot/</url>
+        <connection>scm:git:git@github.org:xxyy/intake-spigot.git</connection>
+        <developerConnection>scm:git:git@github.org:xxyy/intake-spigot.git</developerConnection>
+        <url>https://github.com/xxyy/intake-spigot/</url>
     </scm>
 
     <ciManagement>
