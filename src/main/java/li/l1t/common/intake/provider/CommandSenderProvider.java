@@ -10,11 +10,10 @@
 
 package li.l1t.common.intake.provider;
 
-import com.google.common.collect.ImmutableList;
 import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.CommandArgs;
-import com.sk89q.intake.parametric.Provider;
 import com.sk89q.intake.parametric.ProvisionException;
+import li.l1t.common.intake.i18n.Translator;
 import org.bukkit.command.CommandSender;
 
 import javax.annotation.Nullable;
@@ -28,7 +27,11 @@ import java.util.List;
  * @author <a href="http://xxyy.github.io/">xxyy</a>
  * @since 2016-07-24
  */
-public class CommandSenderProvider implements Provider<CommandSender> {
+public class CommandSenderProvider extends NamespaceAwareProvider<CommandSender> {
+    public CommandSenderProvider(Translator translator) {
+        super(translator);
+    }
+
     @Override
     public boolean isProvided() {
         return true;
@@ -37,15 +40,6 @@ public class CommandSenderProvider implements Provider<CommandSender> {
     @Nullable
     @Override
     public CommandSender get(CommandArgs arguments, List<? extends Annotation> modifiers) throws ArgumentException, ProvisionException {
-        CommandSender sender = arguments.getNamespace().get(CommandSender.class);
-        if (sender == null) {
-            throw new ProvisionException("No sender in namespace");
-        }
-        return sender;
-    }
-
-    @Override
-    public List<String> getSuggestions(String prefix) {
-        return ImmutableList.of();
+        return getFromNamespaceOrFail(arguments, CommandSender.class);
     }
 }

@@ -12,9 +12,8 @@ package li.l1t.common.intake.provider;
 
 import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.CommandArgs;
-import com.sk89q.intake.parametric.Provider;
 import com.sk89q.intake.parametric.ProvisionException;
-import li.l1t.common.intake.exception.CommandExitMessage;
+import li.l1t.common.intake.CommandsManager;
 import li.l1t.common.intake.lib.UUIDHelper;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -32,16 +31,17 @@ import java.util.stream.Collectors;
  * @author <a href="http://xxyy.github.io/">xxyy</a>
  * @since 2016-07-24
  */
-public class OnlinePlayerProvider implements Provider<Player> {
+public class OnlinePlayerProvider extends NamespaceAwareProvider<Player> {
     private final Server server;
 
-    public OnlinePlayerProvider(Server server) {
-        this.server = server;
+    public OnlinePlayerProvider(CommandsManager manager) {
+        super(manager.getTranslator());
+        this.server = manager.getPlugin().getServer();
     }
 
     @Override
     public boolean isProvided() {
-        return false;
+        return true;
     }
 
     @Nullable
@@ -52,11 +52,7 @@ public class OnlinePlayerProvider implements Provider<Player> {
         Player player = getPlayerFromUUIDOrNull(input);
         if (player == null) {
             player = server.getPlayerExact(input);
-            if (player == null) {
-                throw new CommandExitMessage(String.format(
-                        "§c$lFehler: §cEs ist kein Spieler mit dem Namen '%s' online.", input
-                ));
-            }
+            throwLocalizedIf(player == null, "NoPlayerOnline:name", input);
         }
         return player;
     }
@@ -65,13 +61,8 @@ public class OnlinePlayerProvider implements Provider<Player> {
         if (UUIDHelper.isValidUUID(input)) {
             UUID uuid = UUIDHelper.getFromString(input);
             Player player = server.getPlayer(uuid);
-            if (player == null) {
-                throw new CommandExitMessage(String.format(
-                        "§c$lFehler: §cEs ist kein Spieler mit der UUID '%s' online.", uuid
-                ));
-            } else {
-                return player;
-            }
+            throwLocalizedIf(player == null, "NoPlayerOnline:uuid", input);
+            return player;
         }
         return null;
     }

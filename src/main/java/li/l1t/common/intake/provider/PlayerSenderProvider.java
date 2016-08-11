@@ -10,12 +10,10 @@
 
 package li.l1t.common.intake.provider;
 
-import com.google.common.collect.ImmutableList;
 import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.CommandArgs;
-import com.sk89q.intake.parametric.Provider;
 import com.sk89q.intake.parametric.ProvisionException;
-import li.l1t.common.intake.exception.CommandExitMessage;
+import li.l1t.common.intake.i18n.Translator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -31,7 +29,11 @@ import java.util.List;
  * @author <a href="http://xxyy.github.io/">xxyy</a>
  * @since 2016-07-24
  */
-public class PlayerSenderProvider implements Provider<Player> {
+public class PlayerSenderProvider extends NamespaceAwareProvider<Player> {
+    public PlayerSenderProvider(Translator translator) {
+        super(translator);
+    }
+
     @Override
     public boolean isProvided() {
         return true;
@@ -41,17 +43,9 @@ public class PlayerSenderProvider implements Provider<Player> {
     @Override
     public Player get(CommandArgs arguments, List<? extends Annotation> modifiers) throws
             ArgumentException, ProvisionException {
-        CommandSender sender = arguments.getNamespace().get(CommandSender.class);
-        if (sender == null) {
-            throw new ProvisionException("No sender in namespace");
-        } else if(!(sender instanceof Player)) {
-            throw new CommandExitMessage("§cThis command must be executed by a player!");
-        }
+        CommandSender sender = getFromNamespaceOrFail(arguments, CommandSender.class);
+        throwLocalizedIf(!(sender instanceof Player), "PlayerOnlyCommand");
+        //noinspection ConstantConditions
         return (Player) sender;
-    }
-
-    @Override
-    public List<String> getSuggestions(String prefix) {
-        return ImmutableList.of();
     }
 }

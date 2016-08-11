@@ -74,12 +74,12 @@ public class CommandsManager {
                 .toInstance(plugin.getServer());
         injectorModule.bind(Player.class)
                 .annotatedWith(OnlinePlayer.class)
-                .toProvider(new OnlinePlayerProvider(plugin.getServer()));
+                .toProvider(new OnlinePlayerProvider(this));
         injectorModule.bind(Player.class)
                 .annotatedWith(Sender.class)
-                .toProvider(new PlayerSenderProvider());
+                .toProvider(new PlayerSenderProvider(getTranslator()));
         injectorModule.bind(CommandSender.class)
-                .toProvider(new CommandSenderProvider());
+                .toProvider(new CommandSenderProvider(getTranslator()));
         injectorModule.bind(String.class)
                 .annotatedWith(Merged.class)
                 .toProvider(new MergedTextProvider());
