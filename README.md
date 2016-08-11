@@ -62,6 +62,78 @@ Installing this as a developer is slightly more complicated, since this project 
 
 Same, just with Gradle syntax.
 
+# Examples
+
+Here's a simple command with some custom injections:
+
+````java
+public class MyCommand {
+    @Command(aliases = "setname", min = 2,
+            desc = "Changes the name",
+            usage = "[id] [name...]")
+    @Require("your.permission")
+    public void editName(YourService service, CommandSender sender,
+                         YourThing thing,
+                         @Merged @Colored String name)
+            throws IOException {
+        String previousName = thing.getName();
+        thing.setName(name);
+        sender.sendMessage("This is an awesome message");
+    }
+}
+````
+
+Here's the code required to make XYC-Intake class and inject that:
+
+````java
+//best time to call this is on enable
+private void registerCommands() {
+    commandsManager = new CommandsManager(plugin);
+    commandsManager.getTranslator().setLocale(Locale.GERMAN); //or whatever you want, or nothing for system locale
+    registerInjections();
+    commandsManager.registerCommand(new MyCommand(), "mc", "mcalias");
+}
+
+private void registerInjections() {
+    commandsManager.bind(YourService.class).toInstance(new YourService());
+    commandsManager.bind(YourThing.class).toProvider(new YourThingProvider(thingService));
+}
+````
+
+Providers work like in Vanilla Intake. Here's an example for sake of completeness:
+
+````java
+public class YourThingProvider implements Provider<YourThing> {
+    private final YourService service;
+
+    public SkillProvider(YourService service) {
+        this.service = service;
+    }
+
+    @Override
+    public boolean isProvided() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public Skill get(CommandArgs arguments, List<? extends Annotation> modifiers) throws ArgumentException, ProvisionException {
+        String thingId = arguments.next();
+        return service.getThingOrFail(skillId);
+    }
+
+    @Override
+    public List<String> getSuggestions(String prefix) { //tab-complete
+        return service.getAllThings().stream()
+                .map(String::valueOf)
+                .collect(Collectors.toList());
+    }
+}
+````
+
+(Note that tab-complete won't work until upstream pulls 
+[this PR](https://github.com/sk89q/Intake/pull/23).
+
 # Contributing
 
 All contributions welcome, including further translations! 
