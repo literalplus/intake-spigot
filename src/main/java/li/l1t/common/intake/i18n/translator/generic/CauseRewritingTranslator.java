@@ -21,7 +21,7 @@ public class CauseRewritingTranslator<E extends Exception> extends AbstractExcep
         if(cause instanceof Exception) {
             return root.translateAndLogIfNecessary((Exception) cause, commandLine);
         } else {
-            return root.translate(
+            return root.getTranslator().translate(
                     "InternalError:withMessageAndCause",
                     exception.getClass().getSimpleName(),
                     cause.getClass().getSimpleName()

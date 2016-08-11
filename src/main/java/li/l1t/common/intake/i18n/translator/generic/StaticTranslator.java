@@ -25,7 +25,7 @@ public class StaticTranslator<E extends Exception> extends AbstractExceptionTran
 
     @Override
     public String translate(E exception, ErrorTranslator root, String commandLine) {
-        return root.translate(messageKey, argumentFunction.apply(exception));
+        return root.getTranslator().translate(messageKey, argumentFunction.apply(exception));
     }
 
     public StaticTranslator<E> withArgumentFunction(Function<? super E, Object[]> argumentFunction) {

@@ -79,7 +79,7 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
     }
 
     private void sendNestedHelpError(CommandSender sender) {
-        sender.sendMessage(manager.getErrorTranslator().translate("Help.Nested"));
+        sender.sendMessage(manager.getTranslator().translate("Help.Nested"));
     }
 
     private void callDispatcher(CommandSender sender, String argLine) {

@@ -57,14 +57,14 @@ public class NullableParameterTranslator<E extends Exception> extends AbstractEx
     }
 
     private String translateWithoutParameter(ErrorTranslator root, E exception) {
-        return root.translate(
+        return root.getTranslator().translate(
                 baseKey + ":unspecified",
                 translateMessage(root, exception)
         );
     }
 
     private String translateWithParameter(ErrorTranslator root, E exception, Parameter parameter) {
-        return root.translate(
+        return root.getTranslator().translate(
                 baseKey + ":forParameter",
                 translateMessage(root, exception),
                 parameter.getName()
@@ -73,7 +73,7 @@ public class NullableParameterTranslator<E extends Exception> extends AbstractEx
 
     private String translateMessage(ErrorTranslator root, E exception) {
         if(messageTranslator == null) {
-            return root.translate(baseKey + ":other", exception.getMessage());
+            return root.getTranslator().translate(baseKey + ":other", exception.getMessage());
         } else {
             return messageTranslator.translateMessage(root, exception.getMessage());
         }

@@ -19,6 +19,8 @@ import com.sk89q.intake.parametric.provider.PrimitivesModule;
 import li.l1t.common.CommandRegistrationManager;
 import li.l1t.common.intake.help.CommandHelpProvider;
 import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.ResourceBundleTranslator;
+import li.l1t.common.intake.i18n.Translator;
 import li.l1t.common.intake.provider.CommandSenderProvider;
 import li.l1t.common.intake.provider.MergedTextProvider;
 import li.l1t.common.intake.provider.OnlinePlayerProvider;
@@ -50,14 +52,17 @@ public class CommandsManager {
     private final CommandGraph commandGraph = new CommandGraph().builder(builder);
     private final CommandHelpProvider helpProvider = new CommandHelpProvider(this);
     private ErrorTranslator errorTranslator;
+    private Translator translator;
 
     public CommandsManager(Plugin plugin) {
         this.plugin = plugin;
-        this.errorTranslator = new ErrorTranslator(this);
+        this.translator = new ResourceBundleTranslator();
+        this.errorTranslator = new ErrorTranslator(translator);
         builder.getInjector().install(injectorModule = new CommonInjectorModule());
         builder.getInjector().install(new PrimitivesModule());
         builder.setAuthorizer(new CommandSenderAuthorizer());
         bindDefaultInjections();
+        putIntoNamespace(CommandsManager.class, this);
     }
 
     private void bindDefaultInjections() {
@@ -137,5 +142,9 @@ public class CommandsManager {
 
     public CommandHelpProvider getHelpProvider() {
         return helpProvider;
+    }
+
+    public Translator getTranslator() {
+        return translator;
     }
 }

@@ -50,14 +50,14 @@ public class PatternBasedMessageTranslator<E extends Exception> extends Abstract
         for (Map.Entry<Pattern, String> entry : getMessagePatterns().entrySet()) {
             Matcher matcher = entry.getKey().matcher(message);
             if (matcher.matches()) {
-                return root.translate(baseKey, findGroupValues(matcher));
+                return root.getTranslator().translate(baseKey, findGroupValues(matcher));
             }
         }
         String overrideKey = baseKey + ":" + message;
-        if (root.hasTranslationFor(overrideKey)) {
-            return root.translate(overrideKey);
+        if (root.getTranslator().hasTranslationFor(overrideKey)) {
+            return root.getTranslator().translate(overrideKey);
         } else {
-            return root.translate(baseKey + ":other", message);
+            return root.getTranslator().translate(baseKey + ":other", message);
         }
     }
 

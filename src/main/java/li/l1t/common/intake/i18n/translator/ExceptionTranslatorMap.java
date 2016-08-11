@@ -1,10 +1,12 @@
 package li.l1t.common.intake.i18n.translator;
 
+import li.l1t.common.IntakePlugin;
 import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.translator.generic.FallbackTranslator;
 
 import java.util.HashMap;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Maps classes to their exception translators.
@@ -14,7 +16,9 @@ import java.util.logging.Level;
  */
 public class ExceptionTranslatorMap
         extends HashMap<Class<? extends Exception>, ExceptionTranslator<? extends Exception>> {
+    //Bukkit registers plugin loggers with the plugin class name, not package (:
     private final ErrorTranslator root;
+    private final Logger LOGGER = Logger.getLogger(IntakePlugin.class.getName());
     private FallbackTranslator fallbackTranslator;
 
     public ExceptionTranslatorMap(ErrorTranslator root) {
@@ -31,9 +35,9 @@ public class ExceptionTranslatorMap
     public String translateAndLogIfNecessary(Exception exception, String commandLine) {
         ExceptionTranslator translator = ((ExceptionTranslator) getTranslator(exception.getClass()));
         if(translator.needsLogging(exception)) {
-            root.getManager().getPlugin().getLogger().log(
+            LOGGER.log(
                     Level.WARNING,
-                    root.translate("Misc.ExceptionLogMessage", commandLine),
+                    root.getTranslator().translate("Misc.ExceptionLogMessage", commandLine),
                     exception
             );
         }

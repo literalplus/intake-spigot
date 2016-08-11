@@ -99,7 +99,7 @@ class CommandHelpExtractor {
     private void appendNoSuchCommandError() {
         found = false;
         messages.add(TextComponent.fromLegacyText(
-                manager.getErrorTranslator().translate("Help.NoSuchCommand", argLine)
+                manager.getTranslator().translate("Help.NoSuchCommand", argLine)
         ));
     }
 
@@ -172,7 +172,7 @@ class CommandHelpExtractor {
 
     private void appendTooltipHintIfAvailable(Description description, ComponentBuilder builder) {
         if (description.getHelp() != null) {
-            builder.append(" " + manager.getErrorTranslator().translate("Help.ShowMore")).italic(true);
+            builder.append(" " + manager.getTranslator().translate("Help.ShowMore")).italic(true);
             appendHelpTooltip(description, builder);
         }
     }
