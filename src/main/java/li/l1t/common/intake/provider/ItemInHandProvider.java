@@ -14,6 +14,7 @@ import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.parametric.ProvisionException;
 import li.l1t.common.intake.i18n.Translator;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -48,7 +49,7 @@ public class ItemInHandProvider extends NamespaceAwareProvider<ItemStack> {
         //noinspection ConstantConditions
         Player player = (Player) sender;
         ItemStack itemInHand = player.getItemInHand();
-        throwLocalizedIf(itemInHand == null, "NoItemInHand");
+        throwLocalizedIf(itemInHand == null || itemInHand.getType() == Material.AIR, "NoItemInHand");
         return itemInHand;
     }
 
