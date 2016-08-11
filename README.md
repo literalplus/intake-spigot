@@ -131,7 +131,7 @@ public class YourThingProvider implements Provider<YourThing> {
 }
 ````
 
-(Note that tab-complete won't work until upstream pulls 
+(Note that tab-complete for providers won't work until upstream pulls 
 [this PR](https://github.com/sk89q/Intake/pull/23).
 
 # Contributing
