@@ -15,7 +15,7 @@ their `TextProvider` is broken.
 
 When I first wanted to try Intake, I found out the hard way that it needs quite a bit of boilerplate code when
 used with Bukkit, especially compared to the old 
-[sk89q-command-framework](https://github.com/OvercastNetwork/sk89q-command-framework].
+[sk89q-command-framework](https://github.com/OvercastNetwork/sk89q-command-framework).
 
 To save others (and my future self) from having to go through this pain, I created a more-or-less 
 abstract library for what I needed. This includes:
