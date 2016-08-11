@@ -22,15 +22,18 @@ import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.ResourceBundleTranslator;
 import li.l1t.common.intake.i18n.Translator;
 import li.l1t.common.intake.provider.CommandSenderProvider;
+import li.l1t.common.intake.provider.ItemInHandProvider;
 import li.l1t.common.intake.provider.MergedTextProvider;
 import li.l1t.common.intake.provider.OnlinePlayerProvider;
 import li.l1t.common.intake.provider.PlayerSenderProvider;
+import li.l1t.common.intake.provider.annotation.ItemInHand;
 import li.l1t.common.intake.provider.annotation.Merged;
 import li.l1t.common.intake.provider.annotation.OnlinePlayer;
 import li.l1t.common.intake.provider.annotation.Sender;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
@@ -83,6 +86,9 @@ public class CommandsManager {
         injectorModule.bind(String.class)
                 .annotatedWith(Merged.class)
                 .toProvider(new MergedTextProvider());
+        injectorModule.bind(ItemStack.class)
+                .annotatedWith(ItemInHand.class)
+                .toProvider(new ItemInHandProvider(getTranslator()));
     }
 
     public void putIntoNamespace(Object key, Object value) {
