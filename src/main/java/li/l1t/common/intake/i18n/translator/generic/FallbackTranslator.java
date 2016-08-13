@@ -28,6 +28,6 @@ import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
  */
 public class FallbackTranslator extends AbstractExceptionTranslator<Exception> {
     public FallbackTranslator() {
-        super(Exception.class, false);
+        super(Exception.class, true);
     }
 }
