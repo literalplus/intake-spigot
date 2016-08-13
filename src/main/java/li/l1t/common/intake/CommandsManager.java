@@ -77,8 +77,8 @@ public class CommandsManager {
     }
 
     private void bindDefaultInjections() {
-        injectorModule.bind(Plugin.class)
-                .toInstance(plugin);
+        bindPluginToClass(Plugin.class);
+        bindPluginToClass(plugin.getClass());
         injectorModule.bind(CommandsManager.class)
                 .toInstance(this);
         injectorModule.bind(Server.class)
@@ -97,6 +97,12 @@ public class CommandsManager {
         injectorModule.bind(ItemStack.class)
                 .annotatedWith(ItemInHand.class)
                 .toProvider(new ItemInHandProvider(getTranslator()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends Plugin> void bindPluginToClass(Class<?> key) {
+        injectorModule.bind((Class<T>) key)
+                .toInstance((T) plugin);
     }
 
     public void putIntoNamespace(Object key, Object value) {
