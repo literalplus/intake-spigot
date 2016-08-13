@@ -31,8 +31,8 @@
     </description>
 
     <scm>
-        <connection>scm:git:git@github.org:xxyy/intake-spigot.git</connection>
-        <developerConnection>scm:git:git@github.org:xxyy/intake-spigot.git</developerConnection>
+        <connection>scm:git:git@github.com:xxyy/intake-spigot.git</connection>
+        <developerConnection>scm:git:git@github.com:xxyy/intake-spigot.git</developerConnection>
         <url>https://github.com/xxyy/intake-spigot/</url>
     </scm>
 
