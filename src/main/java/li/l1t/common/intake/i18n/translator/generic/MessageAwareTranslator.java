@@ -55,7 +55,8 @@ public class MessageAwareTranslator<E extends Exception> extends StaticTranslato
 
     @Override
     public boolean needsLogging(E exception) {
-        return (exception.getLocalizedMessage() == null) && (exception.getCause() == null) ||
-                (exception.getCause() != null);
+        return super.needsLogging(exception) ||
+                (exception.getLocalizedMessage() == null && exception.getCause() == null) ||
+                exception.getCause() != null;
     }
 }
