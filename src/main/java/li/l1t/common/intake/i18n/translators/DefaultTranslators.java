@@ -104,14 +104,17 @@ public class DefaultTranslators {
     }
 
     private static void registerIllegalArgumentWith(ErrorTranslator root) {
-        new MessageAwareTranslator<>("IllegalArgument", IllegalArgumentException.class).registerWith(root);
+        new MessageAwareTranslator<>("IllegalArgument", IllegalArgumentException.class, true)
+                .registerWith(root);
     }
 
     private static void registerNullPointerWith(ErrorTranslator root) {
-        new MessageAwareTranslator<>("NullPointer", NullPointerException.class).registerWith(root);
+        new MessageAwareTranslator<>("NullPointer", NullPointerException.class, true)
+                .registerWith(root);
     }
 
     private static void registerIllegalStateWith(ErrorTranslator root) {
-        new MessageAwareTranslator<>("IllegalState", IllegalStateException.class).registerWith(root);
+        new MessageAwareTranslator<>("IllegalState", IllegalStateException.class, true)
+                .registerWith(root);
     }
 }

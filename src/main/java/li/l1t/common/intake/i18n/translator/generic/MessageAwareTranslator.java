@@ -33,7 +33,11 @@ package li.l1t.common.intake.i18n.translator.generic;
  */
 public class MessageAwareTranslator<E extends Exception> extends StaticTranslator<E> {
     public MessageAwareTranslator(String messageKey, Class<? extends E> exceptionType) {
-        super(exceptionType, messageKey, false);
+        this(messageKey, exceptionType, false);
+    }
+
+    public MessageAwareTranslator(String messageKey, Class<? extends E> exceptionType, boolean needsLogging) {
+        super(exceptionType, messageKey, needsLogging);
         initArgumentProvider();
     }
 
