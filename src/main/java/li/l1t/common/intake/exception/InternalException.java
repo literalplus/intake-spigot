@@ -19,21 +19,21 @@
 package li.l1t.common.intake.exception;
 
 /**
- * Thrown if an illegal argument is provided for a command.
+ * May be thrown by commands if an internal error occurs.
  *
  * @author <a href="http://xxyy.github.io/">xxyy</a>
  * @since 2016-08-06
  */
-public class CommandArgumentException extends RuntimeException {
-    public CommandArgumentException(String message) {
+public class InternalException extends RuntimeException {
+    public InternalException(String message) {
         super(message);
     }
 
-    public CommandArgumentException(String message, Throwable cause) {
+    public InternalException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public CommandArgumentException(Throwable cause) {
+    public InternalException(Throwable cause) {
         super(cause);
     }
 }
