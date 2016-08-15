@@ -22,6 +22,7 @@ import com.sk89q.intake.CommandException;
 import com.sk89q.intake.InvocationCommandException;
 import com.sk89q.intake.parametric.ProvisionException;
 import com.sk89q.intake.util.auth.AuthorizationException;
+import li.l1t.common.intake.exception.UncheckedException;
 import li.l1t.common.intake.exception.UserException;
 import li.l1t.common.intake.exception.CommandExitMessage;
 import li.l1t.common.intake.i18n.ErrorTranslator;
@@ -60,6 +61,7 @@ public class DefaultTranslators {
         new MessageAwareTranslator<>("ExitMessage", CommandExitMessage.class).registerWith(root);
         new MessageAwareTranslator<>("UserException", UserException.class).registerWith(root);
         new MessageAwareTranslator<>("InternalException", UserException.class).registerWith(root);
+        new CauseRewritingTranslator<>(UncheckedException.class).registerWith(root);
     }
 
     private static void registerIntakeExceptionsWith(ErrorTranslator root) {
