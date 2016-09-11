@@ -27,11 +27,11 @@ import java.util.function.Function;
 /**
  * Translates exceptions. Those may have a parameter specified, but need not.
  * <p>
- * Exceptions with parameters are translated to {@code baseKey}.forParameter and arguments
+ * Exceptions with parameters are translated to {@code baseKey}:forParameter and arguments
  * original message, parameter name.
  * </p>
  * <p>
- * Exceptions without parameters are translated to {@code baseKey}.unspecified and argument
+ * Exceptions without parameters are translated to {@code baseKey}:unspecified and argument
  * original message.
  * </p>
  *
