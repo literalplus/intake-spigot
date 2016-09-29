@@ -75,6 +75,11 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>li.l1t.common</groupId>
+            <artifactId>xyc-api</artifactId>
+            <version>4.0.1</version>
+        </dependency>
 
         <!--<dependency>
             <groupId>com.sk89q.intake</groupId>
