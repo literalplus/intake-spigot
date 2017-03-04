@@ -76,7 +76,7 @@ class CommandHelpExtractor {
     private void appendHoverHintMessage() {
         if (!messages.isEmpty() && RandomUtils.nextBoolean()) {
             messages.add(
-                    new ComponentBuilder("Tipp: §eBewege deine Maus über die Befehle! :)")
+                    new ComponentBuilder(translate("Help.HoverHint"))
                             .color(ChatColor.GOLD).create()
             );
         }
@@ -117,7 +117,7 @@ class CommandHelpExtractor {
     private void appendNoSuchCommandError() {
         found = false;
         messages.add(TextComponent.fromLegacyText(
-                manager.getTranslator().translate("Help.NoSuchCommand", argLine)
+                translate("Help.NoSuchCommand", argLine)
         ));
     }
 
@@ -161,7 +161,7 @@ class CommandHelpExtractor {
     private HoverEvent createUsageSuggestTooltip(String argLine) {
         return new HoverEvent(
                 HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder("Hier klicken zum Kopieren:\n" + argLine).create()
+                new ComponentBuilder(translate("Help.ClickToCopy", argLine)).create()
         );
     }
 
@@ -190,8 +190,12 @@ class CommandHelpExtractor {
 
     private void appendTooltipHintIfAvailable(Description description, ComponentBuilder builder) {
         if (description.getHelp() != null) {
-            builder.append(" " + manager.getTranslator().translate("Help.ShowMore")).italic(true);
+            builder.append(" " + translate("Help.ShowMore")).italic(true);
             appendHelpTooltip(description, builder);
         }
+    }
+
+    private String translate(String key, Object... args) {
+        return manager.getTranslator().translate(key, args);
     }
 }
