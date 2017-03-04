@@ -44,6 +44,7 @@ public class ComponentSender {
      *
      * @param builder  the builder to use to create the parts to send
      * @param receiver the receiver of the parts
+     *
      * @return whether a message was sent
      */
     public static boolean sendTo(ComponentBuilder builder, CommandSender receiver) {
@@ -56,10 +57,11 @@ public class ComponentSender {
      *
      * @param parts    the parts to send
      * @param receiver the receiver of the parts
+     *
      * @return whether a message was sent
      */
     public static boolean sendTo(BaseComponent[] parts, CommandSender receiver) {
-        if (receiver instanceof Player){
+        if (receiver instanceof Player) {
             ((Player) receiver).spigot().sendMessage(parts);
         } else {
             receiver.sendMessage(TextComponent.toLegacyText(parts));
@@ -75,6 +77,7 @@ public class ComponentSender {
      * @param parts    the parts to send
      * @param receiver the receiver of the parts
      * @param plugin   the plugin to use for accessing the scheduler
+     *
      * @return whether a message was sent
      */
     public static boolean sendToSync(BaseComponent[] parts, CommandSender receiver, Plugin plugin) {
@@ -90,6 +93,7 @@ public class ComponentSender {
      * @param builder  the builder to use to create the parts to send
      * @param receiver the receiver of the parts
      * @param plugin   the plugin to use for accessing the scheduler
+     *
      * @return whether a message was sent
      */
     public static boolean sendToSync(ComponentBuilder builder, CommandSender receiver, Plugin plugin) {
