@@ -18,6 +18,7 @@
 
 package li.l1t.common.intake;
 
+import com.google.common.base.Preconditions;
 import com.sk89q.intake.Intake;
 import com.sk89q.intake.argument.Namespace;
 import com.sk89q.intake.fluent.CommandGraph;
@@ -29,11 +30,7 @@ import li.l1t.common.intake.help.CommandHelpProvider;
 import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.ResourceBundleTranslator;
 import li.l1t.common.intake.i18n.Translator;
-import li.l1t.common.intake.provider.CommandSenderProvider;
-import li.l1t.common.intake.provider.ItemInHandProvider;
-import li.l1t.common.intake.provider.MergedTextProvider;
-import li.l1t.common.intake.provider.OnlinePlayerProvider;
-import li.l1t.common.intake.provider.PlayerSenderProvider;
+import li.l1t.common.intake.provider.*;
 import li.l1t.common.intake.provider.annotation.ItemInHand;
 import li.l1t.common.intake.provider.annotation.Merged;
 import li.l1t.common.intake.provider.annotation.OnlinePlayer;
@@ -166,5 +163,11 @@ public class CommandsManager {
 
     public Translator getTranslator() {
         return translator;
+    }
+
+    public void setTranslator(Translator translator) {
+        Preconditions.checkNotNull(translator, "translator");
+        this.translator = translator;
+        this.errorTranslator.setTranslator(translator);
     }
 }

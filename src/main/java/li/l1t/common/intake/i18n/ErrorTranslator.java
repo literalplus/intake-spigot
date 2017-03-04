@@ -51,4 +51,8 @@ public class ErrorTranslator {
     public Translator getTranslator() {
         return translator;
     }
+
+    public void setTranslator(Translator translator) {
+        this.translator = translator;
+    }
 }
