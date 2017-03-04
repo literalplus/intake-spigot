@@ -39,7 +39,7 @@ import java.util.List;
  */
 public class PlayerSenderProvider extends NamespaceAwareProvider<Player> {
     public PlayerSenderProvider(Translator translator) {
-        super(translator);
+        super();
     }
 
     @Override

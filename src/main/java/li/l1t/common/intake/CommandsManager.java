@@ -28,6 +28,7 @@ import com.sk89q.intake.parametric.provider.PrimitivesModule;
 import li.l1t.common.CommandRegistrationManager;
 import li.l1t.common.intake.help.CommandHelpProvider;
 import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.LocaleSelectionProvider;
 import li.l1t.common.intake.i18n.ResourceBundleTranslator;
 import li.l1t.common.intake.i18n.Translator;
 import li.l1t.common.intake.provider.*;
@@ -42,6 +43,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -107,6 +109,26 @@ public class CommandsManager {
         commandBuilders.values().forEach(builder -> builder.putIntoNamespaceIfAvailable(key, value));
     }
 
+    /**
+     * Sets the global override locale, which is used for every command sender.
+     *
+     * @param locale the locale to set
+     */
+    public void setLocale(Locale locale) {
+        Preconditions.checkNotNull(locale, "locale");
+        setLocale(any -> locale);
+    }
+
+    /**
+     * Sets the global locale selection provider, which is used to translate messages for command senders.
+     *
+     * @param selectionProvider the selection provider
+     */
+    public void setLocale(LocaleSelectionProvider selectionProvider) {
+        Preconditions.checkNotNull(selectionProvider, "selectionProvider");
+        translator.setSelectionProvider(selectionProvider);
+    }
+
     public <T> BindingBuilder<T> bind(Class<T> clazz) {
         return injectorModule.bind(clazz);
     }
@@ -167,7 +189,9 @@ public class CommandsManager {
 
     public void setTranslator(Translator translator) {
         Preconditions.checkNotNull(translator, "translator");
+        LocaleSelectionProvider selectionProvider = this.translator.getSelectionProvider();
         this.translator = translator;
+        this.translator.setSelectionProvider(selectionProvider);
         this.errorTranslator.setTranslator(translator);
     }
 }

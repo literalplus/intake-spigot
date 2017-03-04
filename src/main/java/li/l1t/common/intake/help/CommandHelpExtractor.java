@@ -22,8 +22,9 @@ import com.sk89q.intake.CommandMapping;
 import com.sk89q.intake.Description;
 import com.sk89q.intake.dispatcher.Dispatcher;
 import li.l1t.common.intake.CommandsManager;
+import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.intake.i18n.TranslatableComponent;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -33,32 +34,28 @@ import org.apache.commons.lang.math.RandomUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.function.Function;
 
 /**
  * Extracts usage information from command annotations and creates clickable JSON components from
  * it.
  *
- * @author <a href="http://xxyy.github.io/">xxyy</a>
- * @since 15.8.14
+ * @author <a href="https://l1t.li/">Literallie</a>
+ * @since 2014-08-15
  */
 class CommandHelpExtractor {
     private final CommandsManager manager;
     private final Deque<String> argStack;
-    private final Collection<BaseComponent[]> messages = new ArrayList<>();
+    private final Collection<TranslatableComponent> messages = new ArrayList<>();
     private String argLine = "/";
     private Dispatcher currentDispatcher;
-    private boolean found = true;
 
     public CommandHelpExtractor(CommandsManager manager, Deque<String> argStack) {
         this.manager = manager;
         this.argStack = argStack;
     }
 
-    public boolean isFound() {
-        return found;
-    }
-
-    public Collection<BaseComponent[]> getMessages() {
+    public Collection<TranslatableComponent> getMessages() {
         return messages;
     }
 
@@ -76,8 +73,9 @@ class CommandHelpExtractor {
     private void appendHoverHintMessage() {
         if (!messages.isEmpty() && RandomUtils.nextBoolean()) {
             messages.add(
-                    new ComponentBuilder(translate("Help.HoverHint"))
-                            .color(ChatColor.GOLD).create()
+                    translator ->
+                            new ComponentBuilder(translator.apply(Message.of("Help.HoverHint")))
+                                    .color(ChatColor.GOLD).create()
             );
         }
     }
@@ -115,9 +113,8 @@ class CommandHelpExtractor {
     }
 
     private void appendNoSuchCommandError() {
-        found = false;
-        messages.add(TextComponent.fromLegacyText(
-                translate("Help.NoSuchCommand", argLine)
+        messages.add(translator -> TextComponent.fromLegacyText(
+                translator.apply(Message.of("Help.NoSuchCommand", argLine))
         ));
     }
 
@@ -142,26 +139,28 @@ class CommandHelpExtractor {
 
     private void appendDirectDescription(CommandMapping mapping) {
         Description description = mapping.getDescription();
-        ComponentBuilder builder = startUsageMessage(mapping, description);
-        appendShortDescriptionIfAvailable(description, builder);
-        appendTooltipHintIfAvailable(description, builder);
-        messages.add(builder.create());
+        messages.add(translator -> {
+            ComponentBuilder builder = startUsageMessage(mapping, description, translator);
+            appendShortDescriptionIfAvailable(description, builder);
+            appendTooltipHintIfAvailable(description, builder, translator);
+            return builder.create();
+        });
     }
 
-    private ComponentBuilder startUsageMessage(CommandMapping mapping, Description description) {
+    private ComponentBuilder startUsageMessage(CommandMapping mapping, Description description, Function<Message, String> translator) {
         String argLine = this.argLine + mapping.getPrimaryAlias() + " ";
         ClickEvent clickEvent = createUsageSuggestEvent(argLine);
-        HoverEvent hoverEvent = createUsageSuggestTooltip(argLine);
+        HoverEvent hoverEvent = createUsageSuggestTooltip(argLine, translator);
         return new ComponentBuilder(argLine + description.getUsage() + " ")
                 .color(ChatColor.GOLD)
                 .event(clickEvent)
                 .event(hoverEvent);
     }
 
-    private HoverEvent createUsageSuggestTooltip(String argLine) {
+    private HoverEvent createUsageSuggestTooltip(String argLine, Function<Message, String> translator) {
         return new HoverEvent(
                 HoverEvent.Action.SHOW_TEXT,
-                new ComponentBuilder(translate("Help.ClickToCopy", argLine)).create()
+                new ComponentBuilder(translator.apply(Message.of("Help.ClickToCopy", argLine))).create()
         );
     }
 
@@ -188,14 +187,10 @@ class CommandHelpExtractor {
         }
     }
 
-    private void appendTooltipHintIfAvailable(Description description, ComponentBuilder builder) {
+    private void appendTooltipHintIfAvailable(Description description, ComponentBuilder builder, Function<Message, String> translator) {
         if (description.getHelp() != null) {
-            builder.append(" " + translate("Help.ShowMore")).italic(true);
+            builder.append(" " + translator.apply(Message.of("Help.ShowMore"))).italic(true);
             appendHelpTooltip(description, builder);
         }
-    }
-
-    private String translate(String key, Object... args) {
-        return manager.getTranslator().translate(key, args);
     }
 }

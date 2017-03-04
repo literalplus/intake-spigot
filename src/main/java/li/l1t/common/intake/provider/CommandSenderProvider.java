@@ -37,7 +37,7 @@ import java.util.List;
  */
 public class CommandSenderProvider extends NamespaceAwareProvider<CommandSender> {
     public CommandSenderProvider(Translator translator) {
-        super(translator);
+        super();
     }
 
     @Override

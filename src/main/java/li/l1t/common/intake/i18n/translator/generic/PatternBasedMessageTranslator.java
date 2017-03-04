@@ -18,7 +18,7 @@
 
 package li.l1t.common.intake.i18n.translator.generic;
 
-import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 
 import java.util.HashMap;
@@ -60,23 +60,19 @@ public class PatternBasedMessageTranslator<E extends Exception> extends Abstract
     }
 
     @Override
-    public String translate(E exception, ErrorTranslator root, String commandLine) {
-        return translateMessage(root, exception.getMessage());
+    public Message translate(E exception, String commandLine) {
+        return translateMessage(exception.getMessage());
     }
 
-    public String translateMessage(ErrorTranslator root, String message) {
+    public Message translateMessage(String message) {
         for (Map.Entry<Pattern, String> entry : getMessagePatterns().entrySet()) {
             Matcher matcher = entry.getKey().matcher(message);
             if (matcher.matches()) {
-                return root.getTranslator().translate(baseKey, findGroupValues(matcher));
+                return Message.of(baseKey, findGroupValues(matcher));
             }
         }
-        String overrideKey = baseKey + ":" + message;
-        if (root.getTranslator().hasTranslationFor(overrideKey)) {
-            return root.getTranslator().translate(overrideKey);
-        } else {
-            return root.getTranslator().translate(baseKey + ":other", message);
-        }
+        return Message.of(baseKey + ":" + message)
+                .orElse(Message.of(baseKey + ":other", message));
     }
 
     private Object[] findGroupValues(Matcher matcher) {
@@ -88,7 +84,7 @@ public class PatternBasedMessageTranslator<E extends Exception> extends Abstract
     }
 
     public Map<Pattern, String> getMessagePatterns() {
-        if(messagePatterns == null) {
+        if (messagePatterns == null) {
             messagePatterns = new HashMap<>();
         }
         return messagePatterns;

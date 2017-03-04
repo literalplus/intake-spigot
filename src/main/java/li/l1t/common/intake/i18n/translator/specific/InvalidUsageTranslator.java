@@ -19,7 +19,7 @@
 package li.l1t.common.intake.i18n.translator.specific;
 
 import com.sk89q.intake.InvalidUsageException;
-import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 import li.l1t.common.intake.i18n.translator.generic.CauseRewritingTranslator;
 import li.l1t.common.intake.i18n.translator.generic.PatternBasedMessageTranslator;
@@ -44,21 +44,19 @@ public class InvalidUsageTranslator extends AbstractExceptionTranslator<InvalidU
     }
 
     @Override
-    public String translate(InvalidUsageException exception, ErrorTranslator root, String commandLine) {
+    public Message translate(InvalidUsageException exception, String commandLine) {
         if(exception.getCause() != null) {
-            return rewriteToCause(exception, root, commandLine);
+            return rewriteToCause(exception, commandLine);
         } else {
-            return mapToMessage(exception, root, commandLine);
+            return mapToMessage(exception, commandLine);
         }
     }
 
-    private String mapToMessage(InvalidUsageException exception, ErrorTranslator root, String
-            commandLine) {
-        return messageTranslator.translate(exception, root, commandLine);
+    private Message mapToMessage(InvalidUsageException exception, String commandLine) {
+        return messageTranslator.translate(exception, commandLine);
     }
 
-    private String rewriteToCause(InvalidUsageException exception, ErrorTranslator root, String
-            commandLine) {
-        return causeRewritingTranslator.translate(exception, root, commandLine);
+    private Message rewriteToCause(InvalidUsageException exception, String commandLine) {
+        return causeRewritingTranslator.translate(exception, commandLine);
     }
 }

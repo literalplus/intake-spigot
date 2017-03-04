@@ -24,13 +24,13 @@ import com.sk89q.intake.parametric.ProvisionException;
 import com.sk89q.intake.util.auth.AuthorizationException;
 import li.l1t.common.exception.InternalException;
 import li.l1t.common.exception.UserException;
-import li.l1t.common.intake.exception.CommandExitMessage;
 import li.l1t.common.intake.exception.UncheckedException;
 import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.translator.generic.CauseRewritingTranslator;
 import li.l1t.common.intake.i18n.translator.generic.MessageAwareTranslator;
 import li.l1t.common.intake.i18n.translator.generic.PatternBasedMessageTranslator;
 import li.l1t.common.intake.i18n.translator.generic.StaticTranslator;
+import li.l1t.common.intake.i18n.translator.specific.ExitMessageTranslator;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -59,7 +59,7 @@ public class DefaultTranslators {
     }
 
     private static void registerXYCIntakeExceptionsWith(ErrorTranslator root) {
-        new MessageAwareTranslator<>("ExitMessage", CommandExitMessage.class).registerWith(root);
+        new ExitMessageTranslator().registerWith(root);
         new MessageAwareTranslator<>("UserException", UserException.class).registerWith(root);
         new MessageAwareTranslator<>("InternalException", InternalException.class).registerWith(root);
         new CauseRewritingTranslator<>(UncheckedException.class).registerWith(root);

@@ -18,7 +18,10 @@
 
 package li.l1t.common.intake.i18n;
 
+import org.bukkit.command.CommandSender;
+
 import java.util.Locale;
+import java.util.function.Function;
 
 /**
  * Translates message keys into messages with optional arguments.
@@ -27,9 +30,23 @@ import java.util.Locale;
  * @since 2016-08-11
  */
 public interface Translator {
+    /**
+     * @param locale the locale to set the translator to
+     *
+     * @deprecated translators support translation per sender now, use {@link }
+     */
+    @Deprecated
     void setLocale(Locale locale);
 
-    String translate(String key, Object... arguments);
+    /**
+     * @param selectionProvider the selection provider to use for retrieval of the preferred languages of command
+     *                          senders
+     */
+    void setSelectionProvider(LocaleSelectionProvider selectionProvider);
 
-    boolean hasTranslationFor(String key);
+    LocaleSelectionProvider getSelectionProvider();
+
+    String translate(CommandSender sender, Message message);
+
+    Function<Message, String> translationFunctionFor(CommandSender sender);
 }

@@ -20,6 +20,7 @@ package li.l1t.common.intake.i18n.translator;
 
 import li.l1t.common.IntakePlugin;
 import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.Message;
 import li.l1t.common.intake.i18n.translator.generic.FallbackTranslator;
 
 import java.util.HashMap;
@@ -50,16 +51,16 @@ public class ExceptionTranslatorMap
     }
 
     @SuppressWarnings("unchecked")
-    public String translateAndLogIfNecessary(Exception exception, String commandLine) {
+    public Message translateAndLogIfNecessary(Exception exception, String commandLine) {
         ExceptionTranslator translator = ((ExceptionTranslator) getTranslator(exception.getClass()));
-        if(translator.needsLogging(exception)) {
+        if (translator.needsLogging(exception)) {
             LOGGER.log(
                     Level.WARNING,
-                    root.getTranslator().translate("Misc.ExceptionLogMessage", commandLine),
+                    "Error executing /" + commandLine + ":",
                     exception
             );
         }
-        return translator.translate(exception, root, commandLine);
+        return translator.translate(exception, commandLine);
     }
 
     @SuppressWarnings("unchecked")

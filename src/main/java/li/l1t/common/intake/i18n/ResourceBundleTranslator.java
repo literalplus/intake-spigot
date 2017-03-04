@@ -18,9 +18,15 @@
 
 package li.l1t.common.intake.i18n;
 
+import com.google.common.base.Preconditions;
+import org.bukkit.command.CommandSender;
+
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 /**
  * Translates message keys into messages from a resource bundle.
@@ -30,33 +36,58 @@ import java.util.ResourceBundle;
  */
 public class ResourceBundleTranslator implements Translator {
     public static final String MESSAGE_BUNDLE_NAME = "intake-messages";
-    private ResourceBundle messages;
+    private Map<Locale, ResourceBundle> bundles = new HashMap<>();
+    private LocaleSelectionProvider selectionProvider = any -> Locale.getDefault();
 
     @Override
     public void setLocale(Locale locale) {
-        setMessages(ResourceBundle.getBundle(MESSAGE_BUNDLE_NAME, locale));
-    }
-
-    public void setMessages(ResourceBundle messages) {
-        this.messages = messages;
-    }
-
-    public ResourceBundle getMessages() {
-        return messages;
+        setSelectionProvider(any -> locale);
     }
 
     @Override
-    public String translate(String key, Object... arguments) {
-        if (hasTranslationFor(key)) {
-            return new MessageFormat(messages.getString(key), messages.getLocale())
-                    .format(arguments, new StringBuffer(), null).toString();
+    public void setSelectionProvider(LocaleSelectionProvider selectionProvider) {
+        Preconditions.checkNotNull(selectionProvider, "selectionProvider");
+        this.selectionProvider = selectionProvider;
+    }
+
+    @Override
+    public LocaleSelectionProvider getSelectionProvider() {
+        return selectionProvider;
+    }
+
+    @Override
+    public String translate(CommandSender sender, Message message) {
+        Locale locale = selectionProvider.findLocale(sender);
+        if (message.isStatic() || noTranslationPossible(locale, message)) {
+            return message.toString();
         } else {
-            return key;
+            return new MessageFormat(findMessage(locale, message.getKey()), locale)
+                    .format(message.getArguments(), new StringBuffer(), null).toString();
         }
     }
 
+    private String findMessage(Locale locale, String key) {
+        return findBundle(locale).getString(key);
+    }
+
+    private ResourceBundle findBundle(Locale locale) {
+        return bundles.computeIfAbsent(locale, this::createBundle);
+    }
+
+    private ResourceBundle createBundle(Locale locale) {
+        return ResourceBundle.getBundle(MESSAGE_BUNDLE_NAME, locale);
+    }
+
     @Override
-    public boolean hasTranslationFor(String key) {
-        return key != null && messages.containsKey(key);
+    public Function<Message, String> translationFunctionFor(CommandSender sender) {
+        return message -> translate(sender, message);
+    }
+
+    private boolean noTranslationPossible(Locale locale, Message message) {
+        return !hasTranslationFor(locale, message.getKey());
+    }
+
+    public boolean hasTranslationFor(Locale locale, String key) {
+        return key != null && findBundle(locale).containsKey(key);
     }
 }

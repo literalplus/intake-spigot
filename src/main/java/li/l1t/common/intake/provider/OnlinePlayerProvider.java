@@ -43,7 +43,7 @@ public class OnlinePlayerProvider extends NamespaceAwareProvider<Player> {
     private final Server server;
 
     public OnlinePlayerProvider(CommandsManager manager) {
-        super(manager.getTranslator());
+        super();
         this.server = manager.getPlugin().getServer();
     }
 

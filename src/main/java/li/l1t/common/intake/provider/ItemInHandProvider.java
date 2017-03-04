@@ -40,7 +40,7 @@ import java.util.List;
  */
 public class ItemInHandProvider extends NamespaceAwareProvider<ItemStack> {
     public ItemInHandProvider(Translator translator) {
-        super(translator);
+        super();
     }
 
     @Override

@@ -18,7 +18,7 @@
 
 package li.l1t.common.intake.i18n.translator.generic;
 
-import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 
 /**
@@ -34,12 +34,12 @@ public class CauseRewritingTranslator<E extends Exception> extends AbstractExcep
     }
 
     @Override
-    public String translate(E exception, ErrorTranslator root, String commandLine) {
+    public Message translate(E exception, String commandLine) {
         Throwable cause = exception.getCause();
         if(cause instanceof Exception) {
-            return root.translateAndLogIfNecessary((Exception) cause, commandLine);
+            return root().translateAndLogIfNecessary((Exception) cause, commandLine);
         } else {
-            return root.getTranslator().translate(
+            return Message.of(
                     "InternalError:withMessageAndCause",
                     exception.getClass().getSimpleName(),
                     cause.getClass().getSimpleName()

@@ -19,7 +19,7 @@
 package li.l1t.common.intake.i18n.translator.generic;
 
 import com.sk89q.intake.Parameter;
-import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 
 import java.util.function.Function;
@@ -65,35 +65,35 @@ public class NullableParameterTranslator<E extends Exception> extends AbstractEx
     }
 
     @Override
-    public String translate(E exception, ErrorTranslator root, String commandLine) {
+    public Message translate(E exception, String commandLine) {
         Parameter parameter = parameterMapper.apply(exception);
         if (hasParameterSet(parameter)) {
-            return translateWithParameter(root, exception, parameter);
+            return translateWithParameter(exception, parameter);
         } else {
-            return translateWithoutParameter(root, exception);
+            return translateWithoutParameter(exception);
         }
     }
 
-    private String translateWithoutParameter(ErrorTranslator root, E exception) {
-        return root.getTranslator().translate(
+    private Message translateWithoutParameter(E exception) {
+        return Message.of(
                 baseKey + ":unspecified",
-                translateMessage(root, exception)
+                translateMessage(exception)
         );
     }
 
-    private String translateWithParameter(ErrorTranslator root, E exception, Parameter parameter) {
-        return root.getTranslator().translate(
+    private Message translateWithParameter(E exception, Parameter parameter) {
+        return Message.of(
                 baseKey + ":forParameter",
-                translateMessage(root, exception),
+                translateMessage(exception),
                 parameter.getName()
         );
     }
 
-    private String translateMessage(ErrorTranslator root, E exception) {
+    private Message translateMessage(E exception) {
         if(messageTranslator == null) {
-            return root.getTranslator().translate(baseKey + ":other", exception.getMessage());
+            return Message.of(baseKey + ":other", exception.getMessage());
         } else {
-            return messageTranslator.translateMessage(root, exception.getMessage());
+            return messageTranslator.translateMessage(exception.getMessage());
         }
     }
 

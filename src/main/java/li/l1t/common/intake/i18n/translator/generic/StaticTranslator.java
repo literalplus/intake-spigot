@@ -18,7 +18,7 @@
 
 package li.l1t.common.intake.i18n.translator.generic;
 
-import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 
 import java.util.function.Function;
@@ -42,8 +42,8 @@ public class StaticTranslator<E extends Exception> extends AbstractExceptionTran
     }
 
     @Override
-    public String translate(E exception, ErrorTranslator root, String commandLine) {
-        return root.getTranslator().translate(messageKey, argumentFunction.apply(exception));
+    public Message translate(E exception, String commandLine) {
+        return Message.of(messageKey, argumentFunction.apply(exception));
     }
 
     public StaticTranslator<E> withArgumentFunction(Function<? super E, Object[]> argumentFunction) {

@@ -16,20 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package li.l1t.common.intake.i18n.translator;
+package li.l1t.common.intake.i18n.translator.specific;
 
+import li.l1t.common.intake.exception.CommandExitMessage;
 import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 
 /**
- * Translates exceptions into localized messages.
+ * Translates exit messages.
  *
- * @author <a href="http://xxyy.github.io/">xxyy</a>
- * @since 2016-07-24
+ * @author <a href="https://l1t.li/">Literallie</a>
+ * @since 2017-03-04
  */
-public interface ExceptionTranslator<E extends Exception> {
-    Message translate(E exception, String commandLine);
+public class ExitMessageTranslator extends AbstractExceptionTranslator<CommandExitMessage> {
+    public ExitMessageTranslator() {
+        super(CommandExitMessage.class, false);
+    }
 
-    Class<? extends E> getExceptionType();
-
-    boolean needsLogging(E exception);
+    @Override
+    public Message translate(CommandExitMessage exception, String commandLine) {
+        return exception.getIntakeMessage();
+    }
 }

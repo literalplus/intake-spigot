@@ -18,15 +18,28 @@
 
 package li.l1t.common.intake.exception;
 
+import li.l1t.common.intake.i18n.Message;
+
 /**
  * Thrown if a command exits with a specified message. The message may be formatted like
  * Minecraft legacy text.
  *
- * @author <a href="http://xxyy.github.io/">xxyy</a>
+ * @author <a href="https://l1t.li/">Literallie</a>
  * @since 2016-07-24
  */
 public class CommandExitMessage extends RuntimeException {
+    private final Message message;
+
     public CommandExitMessage(String message) {
-        super(message);
+        this(Message.ofText(message));
+    }
+
+    public CommandExitMessage(Message message) {
+        super(message.toString());
+        this.message = message;
+    }
+
+    public Message getIntakeMessage() {
+        return message;
     }
 }

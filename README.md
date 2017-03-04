@@ -89,7 +89,7 @@ Here's the code required to make XYC-Intake class and inject that:
 //best time to call this is on enable
 private void registerCommands() {
     commandsManager = new CommandsManager(plugin);
-    commandsManager.getTranslator().setLocale(Locale.GERMAN); //or whatever you want, or nothing for system locale
+    commandsManager.setLocale(sender -> /* your command sender to locale logic */);
     registerInjections();
     commandsManager.registerCommand(new MyCommand(), "mc", "mcalias");
 }
@@ -151,7 +151,7 @@ Here's an Intake error message that was translated by the plugin:
 
 Here's another translated message:
 
-![why is this a separated screenshot](https://github.com/xxyy/intake-spigot/raw/master/assets/img/translated-messages.png)
+![why is this a separate screenshot](https://github.com/xxyy/intake-spigot/raw/master/assets/img/translated-messages.png)
 
 # Contributing
 

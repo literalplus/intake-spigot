@@ -20,12 +20,11 @@ package li.l1t.common.intake.help;
 
 import li.l1t.common.chat.ComponentSender;
 import li.l1t.common.intake.CommandsManager;
+import li.l1t.common.intake.i18n.TranslatableComponent;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Provides usage information for commands.
@@ -35,17 +34,23 @@ import java.util.Collection;
  */
 public class CommandHelpProvider {
     private final CommandsManager manager;
+    private final Map<String, Collection<TranslatableComponent>> messageCache = new HashMap<>();
 
     public CommandHelpProvider(CommandsManager manager) {
         this.manager = manager;
     }
 
     public void sendHelpOfTo(CommandSender sender, String argLine) {
-        fetchHelpOf(argLine)
-                .forEach(components -> ComponentSender.sendTo(components, sender));
+        messageCache.computeIfAbsent(argLine, this::fetchHelpOf)
+                .forEach(msg -> sendTranslated(sender, msg));
     }
 
-    private Collection<BaseComponent[]> fetchHelpOf(String argLine) {
+    private boolean sendTranslated(CommandSender sender, TranslatableComponent msg) {
+        BaseComponent[] translated = msg.translate(manager.getTranslator().translationFunctionFor(sender));
+        return ComponentSender.sendTo(translated, sender);
+    }
+
+    private Collection<TranslatableComponent> fetchHelpOf(String argLine) {
         CommandHelpExtractor extractor = new CommandHelpExtractor(
                 manager, new ArrayDeque<>(Arrays.asList(argLine.split(" ")))
         );

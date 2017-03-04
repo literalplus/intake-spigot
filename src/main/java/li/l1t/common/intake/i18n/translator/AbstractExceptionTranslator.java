@@ -18,7 +18,9 @@
 
 package li.l1t.common.intake.i18n.translator;
 
+import com.google.common.base.Preconditions;
 import li.l1t.common.intake.i18n.ErrorTranslator;
+import li.l1t.common.intake.i18n.Message;
 
 /**
  * Abstract base class for exception translators.
@@ -29,6 +31,7 @@ import li.l1t.common.intake.i18n.ErrorTranslator;
 public abstract class AbstractExceptionTranslator<E extends Exception> implements ExceptionTranslator<E> {
     private final Class<? extends E> exceptionType;
     private final boolean needsLogging;
+    private ErrorTranslator root;
 
     public AbstractExceptionTranslator(Class<? extends E> exceptionType) {
         this(exceptionType, false);
@@ -40,8 +43,8 @@ public abstract class AbstractExceptionTranslator<E extends Exception> implement
     }
 
     @Override
-    public String translate(E exception, ErrorTranslator root, String commandLine) {
-        return root.getTranslator().translate("InternalError:withMessage", exception.getClass().getSimpleName());
+    public Message translate(E exception, String commandLine) {
+        return Message.of("InternalError:withMessage", exception.getClass().getSimpleName());
     }
 
     @Override
@@ -55,6 +58,13 @@ public abstract class AbstractExceptionTranslator<E extends Exception> implement
     }
 
     public void registerWith(ErrorTranslator root) {
+        Preconditions.checkNotNull(root, "root");
+        Preconditions.checkState(this.root == null, "root already set");
+        this.root = root;
         root.withTranslator(getExceptionType(), this);
+    }
+
+    public ErrorTranslator root() {
+        return Preconditions.checkNotNull(root, "root");
     }
 }

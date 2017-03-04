@@ -23,6 +23,7 @@ import com.sk89q.intake.CommandException;
 import com.sk89q.intake.InvalidUsageException;
 import com.sk89q.intake.argument.Namespace;
 import com.sk89q.intake.dispatcher.Dispatcher;
+import li.l1t.common.intake.i18n.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
@@ -87,7 +88,7 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
     }
 
     private void sendNestedHelpError(CommandSender sender) {
-        sender.sendMessage(manager.getTranslator().translate("Help.Nested"));
+        sender.sendMessage(manager.getTranslator().translate(sender, Message.of("Help.Nested")));
     }
 
     private void callDispatcher(CommandSender sender, String argLine) {
@@ -99,10 +100,9 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
     }
 
     private void handleCommandException(CommandSender sender, String argLine, Exception e) {
-        String translatedMessage = manager.getErrorTranslator()
-                .translateAndLogIfNecessary(e, argLine);
-        if (translatedMessage != null) {
-            sender.sendMessage(translatedMessage);
+        Message message = manager.getErrorTranslator().translateAndLogIfNecessary(e, argLine);
+        if (message != null) {
+            sender.sendMessage(manager.getTranslator().translate(sender, message));
         }
         sendHelpIfRequested(sender, argLine, e);
     }
