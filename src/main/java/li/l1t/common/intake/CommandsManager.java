@@ -87,15 +87,15 @@ public class CommandsManager {
                 .toProvider(new OnlinePlayerProvider(this));
         injectorModule.bind(Player.class)
                 .annotatedWith(Sender.class)
-                .toProvider(new PlayerSenderProvider(getTranslator()));
+                .toProvider(new PlayerSenderProvider());
         injectorModule.bind(CommandSender.class)
-                .toProvider(new CommandSenderProvider(getTranslator()));
+                .toProvider(new CommandSenderProvider());
         injectorModule.bind(String.class)
                 .annotatedWith(Merged.class)
                 .toProvider(new MergedTextProvider());
         injectorModule.bind(ItemStack.class)
                 .annotatedWith(ItemInHand.class)
-                .toProvider(new ItemInHandProvider(getTranslator()));
+                .toProvider(new ItemInHandProvider());
     }
 
     @SuppressWarnings("unchecked")

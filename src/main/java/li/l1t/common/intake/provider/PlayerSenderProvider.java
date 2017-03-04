@@ -21,7 +21,6 @@ package li.l1t.common.intake.provider;
 import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.parametric.ProvisionException;
-import li.l1t.common.intake.i18n.Translator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -38,10 +37,6 @@ import java.util.List;
  * @since 2016-07-24
  */
 public class PlayerSenderProvider extends NamespaceAwareProvider<Player> {
-    public PlayerSenderProvider(Translator translator) {
-        super();
-    }
-
     @Override
     public boolean isProvided() {
         return true;
