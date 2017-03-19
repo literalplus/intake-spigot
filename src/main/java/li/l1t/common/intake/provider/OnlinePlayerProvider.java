@@ -49,7 +49,7 @@ public class OnlinePlayerProvider extends NamespaceAwareProvider<Player> {
 
     @Override
     public boolean isProvided() {
-        return true;
+        return false;
     }
 
     @Nullable
