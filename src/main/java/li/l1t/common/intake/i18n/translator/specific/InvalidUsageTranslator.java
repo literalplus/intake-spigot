@@ -19,6 +19,7 @@
 package li.l1t.common.intake.i18n.translator.specific;
 
 import com.sk89q.intake.InvalidUsageException;
+import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 import li.l1t.common.intake.i18n.translator.generic.CauseRewritingTranslator;
@@ -33,14 +34,14 @@ import li.l1t.common.intake.i18n.translator.generic.PatternBasedMessageTranslato
  * @since 2016-07-30
  */
 public class InvalidUsageTranslator extends AbstractExceptionTranslator<InvalidUsageException> {
-    private final PatternBasedMessageTranslator<InvalidUsageException> messageTranslator =
-            new PatternBasedMessageTranslator<>(InvalidUsageException.class, false)
-            .withBaseKey("InvalidUsage");
-    private final CauseRewritingTranslator<InvalidUsageException> causeRewritingTranslator =
-            new CauseRewritingTranslator<>(InvalidUsageException.class);
+    private final PatternBasedMessageTranslator<InvalidUsageException> messageTranslator;
+    private final CauseRewritingTranslator<InvalidUsageException> causeRewritingTranslator;
 
-    public InvalidUsageTranslator() {
+    public InvalidUsageTranslator(ErrorTranslator root) {
         super(InvalidUsageException.class, false);
+        causeRewritingTranslator = new CauseRewritingTranslator<>(InvalidUsageException.class, root);
+        messageTranslator = new PatternBasedMessageTranslator<>(InvalidUsageException.class, false)
+        .withBaseKey("InvalidUsage");
     }
 
     @Override

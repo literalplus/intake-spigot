@@ -31,11 +31,6 @@ import li.l1t.common.intake.i18n.Message;
 public abstract class AbstractExceptionTranslator<E extends Exception> implements ExceptionTranslator<E> {
     private final Class<? extends E> exceptionType;
     private final boolean needsLogging;
-    private ErrorTranslator root;
-
-    public AbstractExceptionTranslator(Class<? extends E> exceptionType) {
-        this(exceptionType, false);
-    }
 
     public AbstractExceptionTranslator(Class<? extends E> exceptionType, boolean needsLogging) {
         this.exceptionType = exceptionType;
@@ -59,12 +54,6 @@ public abstract class AbstractExceptionTranslator<E extends Exception> implement
 
     public void registerWith(ErrorTranslator root) {
         Preconditions.checkNotNull(root, "root");
-        Preconditions.checkState(this.root == null, "root already set");
-        this.root = root;
         root.withTranslator(getExceptionType(), this);
-    }
-
-    public ErrorTranslator root() {
-        return Preconditions.checkNotNull(root, "root");
     }
 }

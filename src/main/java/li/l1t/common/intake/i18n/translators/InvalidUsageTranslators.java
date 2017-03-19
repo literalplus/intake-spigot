@@ -43,7 +43,7 @@ class InvalidUsageTranslators {
     }
 
     private static void registerRootInvalidUsageWith(ErrorTranslator root) {
-        new InvalidUsageTranslator().registerWith(root);
+        new InvalidUsageTranslator(root).registerWith(root);
     }
 
     private static void registerMissingArgumentWith(ErrorTranslator root) {

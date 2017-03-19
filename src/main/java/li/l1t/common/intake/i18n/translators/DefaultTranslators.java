@@ -62,7 +62,7 @@ public class DefaultTranslators {
         new ExitMessageTranslator().registerWith(root);
         new MessageAwareTranslator<>("UserException", UserException.class).registerWith(root);
         new MessageAwareTranslator<>("InternalException", InternalException.class).registerWith(root);
-        new CauseRewritingTranslator<>(UncheckedException.class).registerWith(root);
+        new CauseRewritingTranslator<>(UncheckedException.class, root).registerWith(root);
     }
 
     private static void registerIntakeExceptionsWith(ErrorTranslator root) {
@@ -77,7 +77,7 @@ public class DefaultTranslators {
     }
 
     private static void registerInvocationCommandExceptionWith(ErrorTranslator root) {
-        new CauseRewritingTranslator<>(InvocationCommandException.class).registerWith(root);
+        new CauseRewritingTranslator<>(InvocationCommandException.class, root).registerWith(root);
         new StaticTranslator<>(ProvisionException.class, "Provision", true)
                 .registerWith(root);
     }
