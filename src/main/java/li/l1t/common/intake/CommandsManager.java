@@ -42,9 +42,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Manages commands registered with Intake.
@@ -61,6 +59,7 @@ public class CommandsManager {
     private final CommonInjectorModule injectorModule;
     private final CommandGraph commandGraph = new CommandGraph().builder(builder);
     private final CommandHelpProvider helpProvider = new CommandHelpProvider(this);
+    private final List<CommandExceptionListener> exceptionListeners = new ArrayList<>();
     private ErrorTranslator errorTranslator;
     private Translator translator;
 
@@ -193,5 +192,15 @@ public class CommandsManager {
         this.translator = translator;
         this.translator.setSelectionProvider(selectionProvider);
         this.errorTranslator.setTranslator(translator);
+    }
+
+    public void addExceptionListener(CommandExceptionListener listener) {
+        Preconditions.checkNotNull(listener, "listener");
+        exceptionListeners.add(listener);
+    }
+
+    boolean callExceptionListeners(String argLine, CommandSender sender, Exception exception) {
+        return exceptionListeners.stream()
+                .anyMatch(listener -> listener.handle(argLine, sender, exception));
     }
 }

@@ -95,11 +95,17 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
         try {
             dispatcher.call(argLine, namespace, Collections.emptyList());
         } catch (Exception e) {
-            handleCommandException(sender, argLine, e);
+            handleCommandException(argLine, sender, e);
         }
     }
 
-    private void handleCommandException(CommandSender sender, String argLine, Exception e) {
+    private void handleCommandException(String argLine, CommandSender sender, Exception exception) {
+        if (manager.callExceptionListeners(argLine, sender, exception)) {
+            handleExceptionTranslation(argLine, sender, exception);
+        }
+    }
+
+    private void handleExceptionTranslation(String argLine, CommandSender sender, Exception e) {
         Message message = manager.getErrorTranslator().translateAndLogIfNecessary(e, argLine);
         if (message != null) {
             sender.sendMessage(manager.getTranslator().translate(sender, message));
