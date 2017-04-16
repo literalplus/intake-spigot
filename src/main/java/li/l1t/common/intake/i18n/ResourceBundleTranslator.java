@@ -56,13 +56,13 @@ public class ResourceBundleTranslator implements Translator {
     }
 
     @Override
-    public String translate(CommandSender sender, Message message) {
+    public String translate(CommandSender sender, li.l1t.common.i18n.Message message) {
         Locale locale = selectionProvider.findLocale(sender);
         return translate(locale, message);
     }
 
     @Override
-    public String translate(Locale locale, Message message) {
+    public String translate(Locale locale, li.l1t.common.i18n.Message message) {
         if (message.isStatic() || noTranslationPossible(locale, message)) {
             return message.toString();
         } else {
@@ -84,11 +84,11 @@ public class ResourceBundleTranslator implements Translator {
     }
 
     @Override
-    public Function<Message, String> translationFunctionFor(CommandSender sender) {
+    public Function<li.l1t.common.i18n.Message, String> translationFunctionFor(CommandSender sender) {
         return message -> translate(sender, message);
     }
 
-    private boolean noTranslationPossible(Locale locale, Message message) {
+    private boolean noTranslationPossible(Locale locale, li.l1t.common.i18n.Message message) {
         return !hasTranslationFor(locale, message.getKey());
     }
 

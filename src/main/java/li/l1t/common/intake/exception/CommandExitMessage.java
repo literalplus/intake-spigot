@@ -18,7 +18,7 @@
 
 package li.l1t.common.intake.exception;
 
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 
 /**
  * Thrown if a command exits with a specified message. The message may be formatted like

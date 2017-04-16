@@ -19,7 +19,7 @@
 package li.l1t.common.intake.i18n.translator.specific;
 
 import li.l1t.common.intake.exception.CommandExitMessage;
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 
 /**

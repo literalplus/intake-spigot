@@ -20,7 +20,7 @@ package li.l1t.common.intake.i18n.translator;
 
 import com.google.common.base.Preconditions;
 import li.l1t.common.intake.i18n.ErrorTranslator;
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 
 /**
  * Abstract base class for exception translators.

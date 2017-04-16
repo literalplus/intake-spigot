@@ -18,98 +18,15 @@
 
 package li.l1t.common.intake.i18n;
 
-import java.util.Arrays;
-
 /**
  * Represents a message that may be translatable or static.
  *
  * @author <a href="https://l1t.li/">Literallie</a>
  * @since 2017-03-04
+ * @deprecated Use {@link li.l1t.common.i18n.Message} instead
  */
-public class Message {
-    private final String staticText;
-    private final String key;
-    private final Object[] arguments;
-    private Message fallback;
-
-    private Message(String staticText, String key, Object... arguments) {
-        this.key = key;
-        this.arguments = arguments;
-        this.staticText = staticText;
-    }
-
-    /**
-     * @return whether this message is static and does not need translation
-     *
-     * @see #toString() for the static text if the message is static
-     */
-    public boolean isStatic() {
-        return staticText != null;
-    }
-
-    /**
-     * @return the translation key of this message, or null if it is static
-     */
-    public String getKey() {
-        return key;
-    }
-
-    /**
-     * @return the arguments array of this message, or always an empty array if it is static
-     */
-    public Object[] getArguments() {
-        return arguments;
-    }
-
-    /**
-     * @param message the new {@link #getFallback() fallback message}
-     *
-     * @return this message
-     */
-    public Message orElse(Message message) {
-        this.fallback = message;
-        return this;
-    }
-
-    /**
-     * @return whether this message has a {@link #getFallback() fallback message}
-     */
-    public boolean hasFallback() {
-        return fallback != null;
-    }
-
-    /**
-     * @return the fallback message that is to be used if translation of this message fails
-     */
-    public Message getFallback() {
-        return fallback;
-    }
-
-    @Override
-    public String toString() {
-        return isStatic() ? staticText : (key + Arrays.toString(arguments));
-    }
-
-    /**
-     * Creates a new dynamic message.
-     *
-     * @param key       the translation key
-     * @param arguments the arguments to pass to the translator
-     *
-     * @return the created message
-     */
-    public static Message of(String key, Object... arguments) {
-        return new Message(null, key, arguments);
-    }
-
-    /**
-     * Creates a new static message.
-     *
-     * @param staticText the static message text
-     *
-     * @return the created message
-     */
-    public static Message ofText(String staticText) {
-        return new Message(staticText, null);
+public class Message extends li.l1t.common.i18n.Message {
+    protected Message(String staticText, String key, Object... arguments) {
+        super(staticText, key, arguments);
     }
 }

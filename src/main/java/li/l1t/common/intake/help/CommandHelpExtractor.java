@@ -22,7 +22,7 @@ import com.sk89q.intake.CommandMapping;
 import com.sk89q.intake.Description;
 import com.sk89q.intake.dispatcher.Dispatcher;
 import li.l1t.common.intake.CommandsManager;
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;

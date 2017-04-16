@@ -22,7 +22,7 @@ import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.parametric.Provider;
 import com.sk89q.intake.parametric.ProvisionException;
 import li.l1t.common.intake.exception.CommandExitMessage;
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 
 import java.util.Collections;
 import java.util.List;

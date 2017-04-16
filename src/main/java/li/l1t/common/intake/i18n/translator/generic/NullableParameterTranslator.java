@@ -19,7 +19,7 @@
 package li.l1t.common.intake.i18n.translator.generic;
 
 import com.sk89q.intake.Parameter;
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 
 import java.util.function.Function;

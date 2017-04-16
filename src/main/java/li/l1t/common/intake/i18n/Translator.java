@@ -46,9 +46,9 @@ public interface Translator {
 
     LocaleSelectionProvider getSelectionProvider();
 
-    String translate(CommandSender sender, Message message);
+    String translate(CommandSender sender, li.l1t.common.i18n.Message message);
 
-    String translate(Locale locale, Message message);
+    String translate(Locale locale, li.l1t.common.i18n.Message message);
 
-    Function<Message, String> translationFunctionFor(CommandSender sender);
+    Function<li.l1t.common.i18n.Message, String> translationFunctionFor(CommandSender sender);
 }

@@ -18,7 +18,7 @@
 
 package li.l1t.common.intake.help;
 
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 import li.l1t.common.intake.i18n.Translator;
 import org.bukkit.command.CommandSender;
 

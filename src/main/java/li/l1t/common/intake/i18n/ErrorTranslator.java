@@ -38,7 +38,7 @@ public class ErrorTranslator {
         DefaultTranslators.registerAllWith(this);
     }
 
-    public Message translateAndLogIfNecessary(Exception exception, String commandLine) {
+    public li.l1t.common.i18n.Message translateAndLogIfNecessary(Exception exception, String commandLine) {
         return translatorMap.translateAndLogIfNecessary(exception, commandLine);
     }
 

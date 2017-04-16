@@ -78,7 +78,7 @@
         <dependency>
             <groupId>li.l1t.common</groupId>
             <artifactId>xyc-api-spigot</artifactId>
-            <version>4.4.0</version>
+            <version>4.4.2</version>
         </dependency>
 
         <!--<dependency>

@@ -18,7 +18,7 @@
 
 package li.l1t.common.intake.i18n.translator;
 
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 
 /**
  * Translates exceptions into localized messages.

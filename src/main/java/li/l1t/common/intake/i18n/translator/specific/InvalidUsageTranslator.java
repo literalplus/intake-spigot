@@ -20,7 +20,7 @@ package li.l1t.common.intake.i18n.translator.specific;
 
 import com.sk89q.intake.InvalidUsageException;
 import li.l1t.common.intake.i18n.ErrorTranslator;
-import li.l1t.common.intake.i18n.Message;
+import li.l1t.common.i18n.Message;
 import li.l1t.common.intake.i18n.translator.AbstractExceptionTranslator;
 import li.l1t.common.intake.i18n.translator.generic.CauseRewritingTranslator;
 import li.l1t.common.intake.i18n.translator.generic.PatternBasedMessageTranslator;
