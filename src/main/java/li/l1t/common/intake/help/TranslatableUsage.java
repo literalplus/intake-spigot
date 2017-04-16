@@ -16,11 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package li.l1t.common.intake.i18n;
+package li.l1t.common.intake.help;
 
 import net.md_5.bungee.api.chat.BaseComponent;
-
-import java.util.function.Function;
 
 /**
  * Represents a thing that, given a translation function, creates a translated message.
@@ -29,6 +27,6 @@ import java.util.function.Function;
  * @since 2017-03-04
  */
 @FunctionalInterface
-public interface TranslatableComponent {
-    BaseComponent[] translate(Function<Message, String> translationFunction);
+interface TranslatableUsage {
+    BaseComponent[] translate(UsageTranslator translator);
 }

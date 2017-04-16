@@ -33,7 +33,7 @@ public interface Translator {
     /**
      * @param locale the locale to set the translator to
      *
-     * @deprecated translators support translation per sender now, use {@link }
+     * @deprecated translators support translation per sender now, use {@link #setSelectionProvider(LocaleSelectionProvider)}
      */
     @Deprecated
     void setLocale(Locale locale);
@@ -47,6 +47,8 @@ public interface Translator {
     LocaleSelectionProvider getSelectionProvider();
 
     String translate(CommandSender sender, Message message);
+
+    String translate(Locale locale, Message message);
 
     Function<Message, String> translationFunctionFor(CommandSender sender);
 }

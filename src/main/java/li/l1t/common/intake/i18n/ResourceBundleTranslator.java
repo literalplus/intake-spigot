@@ -35,7 +35,7 @@ import java.util.function.Function;
  * @since 2016-08-11
  */
 public class ResourceBundleTranslator implements Translator {
-    public static final String MESSAGE_BUNDLE_NAME = "intake-messages";
+    private static final String MESSAGE_BUNDLE_NAME = "intake-messages";
     private Map<Locale, ResourceBundle> bundles = new HashMap<>();
     private LocaleSelectionProvider selectionProvider = any -> Locale.getDefault();
 
@@ -58,6 +58,11 @@ public class ResourceBundleTranslator implements Translator {
     @Override
     public String translate(CommandSender sender, Message message) {
         Locale locale = selectionProvider.findLocale(sender);
+        return translate(locale, message);
+    }
+
+    @Override
+    public String translate(Locale locale, Message message) {
         if (message.isStatic() || noTranslationPossible(locale, message)) {
             return message.toString();
         } else {

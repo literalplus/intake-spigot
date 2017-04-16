@@ -20,7 +20,6 @@ package li.l1t.common.intake.help;
 
 import li.l1t.common.chat.ComponentSender;
 import li.l1t.common.intake.CommandsManager;
-import li.l1t.common.intake.i18n.TranslatableComponent;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.command.CommandSender;
 
@@ -33,8 +32,10 @@ import java.util.*;
  * @since 2016-08-01
  */
 public class CommandHelpProvider {
+    public static CommandMetaTranslator NO_OP_META_TRANSLATOR = (input, locale) -> input;
     private final CommandsManager manager;
-    private final Map<String, Collection<TranslatableComponent>> messageCache = new HashMap<>();
+    private final Map<String, Collection<TranslatableUsage>> messageCache = new HashMap<>();
+    private CommandMetaTranslator metaTranslator = NO_OP_META_TRANSLATOR;
 
     public CommandHelpProvider(CommandsManager manager) {
         this.manager = manager;
@@ -45,15 +46,28 @@ public class CommandHelpProvider {
                 .forEach(msg -> sendTranslated(sender, msg));
     }
 
-    private boolean sendTranslated(CommandSender sender, TranslatableComponent msg) {
-        BaseComponent[] translated = msg.translate(manager.getTranslator().translationFunctionFor(sender));
+    private boolean sendTranslated(CommandSender sender, TranslatableUsage msg) {
+        BaseComponent[] translated = msg.translate(
+                new UsageTranslator(manager.getTranslator(), metaTranslator, sender)
+        );
         return ComponentSender.sendTo(translated, sender);
     }
 
-    private Collection<TranslatableComponent> fetchHelpOf(String argLine) {
+    private Collection<TranslatableUsage> fetchHelpOf(String argLine) {
         CommandHelpExtractor extractor = new CommandHelpExtractor(
                 manager, new ArrayDeque<>(Arrays.asList(argLine.split(" ")))
         );
         return extractor.build().getMessages();
+    }
+
+    /**
+     * @param metaTranslator the new meat translator to use for translation of command meta
+     */
+    public void setMetaTranslator(CommandMetaTranslator metaTranslator) {
+        if (metaTranslator == null) {
+            this.metaTranslator = NO_OP_META_TRANSLATOR;
+        } else {
+            this.metaTranslator = metaTranslator;
+        }
     }
 }
