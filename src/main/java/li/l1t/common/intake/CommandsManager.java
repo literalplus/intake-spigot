@@ -95,6 +95,8 @@ public class CommandsManager {
         injectorModule.bind(ItemStack.class)
                 .annotatedWith(ItemInHand.class)
                 .toProvider(new ItemInHandProvider());
+        injectorModule.bind(UUID.class)
+                .toProvider(new UUIDProvider());
     }
 
     @SuppressWarnings("unchecked")
