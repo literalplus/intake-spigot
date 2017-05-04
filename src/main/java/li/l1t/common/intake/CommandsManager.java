@@ -32,10 +32,7 @@ import li.l1t.common.intake.i18n.LocaleSelectionProvider;
 import li.l1t.common.intake.i18n.ResourceBundleTranslator;
 import li.l1t.common.intake.i18n.Translator;
 import li.l1t.common.intake.provider.*;
-import li.l1t.common.intake.provider.annotation.ItemInHand;
-import li.l1t.common.intake.provider.annotation.Merged;
-import li.l1t.common.intake.provider.annotation.OnlinePlayer;
-import li.l1t.common.intake.provider.annotation.Sender;
+import li.l1t.common.intake.provider.annotation.*;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -84,6 +81,9 @@ public class CommandsManager {
         injectorModule.bind(Player.class)
                 .annotatedWith(OnlinePlayer.class)
                 .toProvider(new OnlinePlayerProvider(this));
+        injectorModule.bind(CommandSender.class)
+                .annotatedWith(OnlineSender.class)
+                .toProvider(new OnlineSenderProvider(this));
         injectorModule.bind(Player.class)
                 .annotatedWith(Sender.class)
                 .toProvider(new PlayerSenderProvider());

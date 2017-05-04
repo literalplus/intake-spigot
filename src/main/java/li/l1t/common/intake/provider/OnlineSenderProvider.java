@@ -22,6 +22,7 @@ import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.parametric.ProvisionException;
 import li.l1t.common.intake.CommandsManager;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
@@ -33,20 +34,22 @@ import java.util.stream.Collectors;
 /**
  * Provides the executing command sender instance to commands.
  *
- * @author <a href="http://xxyy.github.io/">xxyy</a>
- * @since 2016-07-24
+ * @author <a href="https://l1t.li/">Literallie</a>
+ * @since 2017-05-04
  */
-public class OnlinePlayerProvider extends OnlineProvider<Player> {
-
-    public OnlinePlayerProvider(CommandsManager manager) {
+public class OnlineSenderProvider extends OnlineProvider<CommandSender> {
+    public OnlineSenderProvider(CommandsManager manager) {
         super(manager);
     }
 
     @Nullable
     @Override
-    public Player get(CommandArgs arguments, List<? extends Annotation> modifiers) throws
+    public CommandSender get(CommandArgs arguments, List<? extends Annotation> modifiers) throws
             ArgumentException, ProvisionException {
         String input = arguments.next();
+        if (input.equalsIgnoreCase("console")) {
+            return server.getConsoleSender();
+        }
         Player player = getPlayerFromUUIDOrNull(input);
         if (player == null) {
             player = server.getPlayerExact(input);
