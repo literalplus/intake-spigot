@@ -62,9 +62,9 @@ Installing this as a server owner is as easy as dropping the
 Installing this as a developer is slightly more complicated, since this 
 project isn't being deployed into Maven Central.
 
-The latest release is `4.2.30-SNAPSHOT`, released at `2017-08-29T20:05:50Z`. The latest
+The latest release is `${project.version}`, released at `${maven.build.timestamp}`. The latest
 git commit included in that version is
-[4f404d8](https://github.com/xxyy/intake-spigot/commit/4f404d8).
+[${buildNumber}](https://github.com/xxyy/intake-spigot/commit/${buildNumber}).
 
 ## Maven
 
@@ -79,7 +79,7 @@ git commit included in that version is
   <dependency>
     <groupId>li.l1t.common</groupId>
     <artifactId>intake-spigot</artifactId>
-    <version>4.2.30-SNAPSHOT</version>
+    <version>${project.version}</version>
   </dependency>
 </dependencies>
 ````
@@ -92,7 +92,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.30-SNAPSHOT'
+    compile group: 'li.l1t.common', name: 'intake-spigot', version: '${project.version}'
 }
 ````
 
@@ -205,7 +205,7 @@ I recommend that you read ['Clean Code' by the awesome Robert C. Martin](https:/
 ## Releasing
 
 ````bash
-mvn -Dresume=false release:prepare resources:copy-resources@update-readme-version release:perform
+mvn -Dresume=false verify release:prepare resources:copy-resources@update-readme-version release:perform
 ````
 
 # License
