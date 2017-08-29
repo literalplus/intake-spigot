@@ -62,7 +62,15 @@ project isn't being deployed into Maven Central. You can look up the latest vers
 
 ## Gradle
 
-Same, just with Gradle syntax.
+````groovy
+repositories {
+    maven { url "https://repo.l1t.li/xxyy-public/" }
+}
+
+dependencies {
+    compile group: 'li.l1t.common', name: 'intake-spigot', version: '-- insert version --'
+}
+````
 
 # Examples
 
