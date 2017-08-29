@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>li.l1t.common</groupId>
     <artifactId>intake-spigot</artifactId>
-    <version>4.2.30</version>
+    <version>4.2.31-SNAPSHOT</version>
 
     <name>XYC Intake Bridge for Spigot</name>
     <description>
@@ -34,7 +34,7 @@
         <connection>scm:git:git@github.com:xxyy/intake-spigot.git</connection>
         <developerConnection>scm:git:git@github.com:xxyy/intake-spigot.git</developerConnection>
         <url>https://github.com/xxyy/intake-spigot/</url>
-      <tag>intake-spigot-4.2.30</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <ciManagement>
