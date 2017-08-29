@@ -201,12 +201,6 @@ This project uses standard IntelliJ code style. Format your code with `Alt+Shift
 
 I recommend that you read ['Clean Code' by the awesome Robert C. Martin](https://www.google.at/webhp?q=clean+code+pdf#newwindow=1&q=clean+code+pdf).
 
-## Releasing
-
-````bash
-mvn -Dresume=false verify release:prepare resources:copy-resources@update-readme-version release:perform
-````
-
 # License
 
 This project is licensed under LGPL, mainly because it includes two lines from Intake that I had to copy 
