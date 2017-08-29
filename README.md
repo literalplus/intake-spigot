@@ -61,9 +61,9 @@ Installing this as a server owner is as easy as dropping the
 Installing this as a developer is slightly more complicated, since this 
 project isn't being deployed into Maven Central.
 
-The latest release is `4.2.30-SNAPSHOT`, released at `2017-08-29T20:09:38Z`. The latest
+The latest release is `4.2.32`, released at `2017-08-29T21:01:40Z`. The latest
 git commit included in that version is
-[ab0cf9e](https://github.com/xxyy/intake-spigot/commit/ab0cf9e).
+[f3b3d69](https://github.com/xxyy/intake-spigot/commit/f3b3d69).
 
 ## Maven
 
@@ -78,7 +78,7 @@ git commit included in that version is
   <dependency>
     <groupId>li.l1t.common</groupId>
     <artifactId>intake-spigot</artifactId>
-    <version>4.2.30-SNAPSHOT</version>
+    <version>4.2.32</version>
   </dependency>
 </dependencies>
 ````
@@ -91,7 +91,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.30-SNAPSHOT'
+    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.32'
 }
 ````
 
@@ -200,12 +200,6 @@ All contributions welcome, including further translations!
 This project uses standard IntelliJ code style. Format your code with `Alt+Shift+L`. 
 
 I recommend that you read ['Clean Code' by the awesome Robert C. Martin](https://www.google.at/webhp?q=clean+code+pdf#newwindow=1&q=clean+code+pdf).
-
-## Releasing
-
-````bash
-mvn -Dresume=false verify release:prepare resources:copy-resources@update-readme-version release:perform
-````
 
 # License
 
