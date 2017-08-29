@@ -61,9 +61,9 @@ Installing this as a server owner is as easy as dropping the
 Installing this as a developer is slightly more complicated, since this 
 project isn't being deployed into Maven Central.
 
-The latest release is `4.2.32`, released at `2017-08-29T21:01:40Z`. The latest
+The latest release is `4.2.33`, released at `2017-08-29T21:12:03Z`. The latest
 git commit included in that version is
-[f3b3d69](https://github.com/xxyy/intake-spigot/commit/f3b3d69).
+[d5324d3](https://github.com/xxyy/intake-spigot/commit/d5324d3).
 
 ## Maven
 
@@ -78,7 +78,7 @@ git commit included in that version is
   <dependency>
     <groupId>li.l1t.common</groupId>
     <artifactId>intake-spigot</artifactId>
-    <version>4.2.32</version>
+    <version>4.2.33</version>
   </dependency>
 </dependencies>
 ````
@@ -91,7 +91,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.32'
+    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.33'
 }
 ````
 
