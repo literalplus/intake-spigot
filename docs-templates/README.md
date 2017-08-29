@@ -1,24 +1,23 @@
-[//]: # (
-#
-#  ooooooooo.   oooooooooooo       .o.       oooooooooo.   
-#  `888   `Y88. `888'     `8      .888.      `888'   `Y8b  
-#   888   .d88'  888             .8"888.      888      888 
-#   888ooo88P'   888oooo8       .8' `888.     888      888 
-#   888`88b.     888    "      .88ooo8888.    888      888 
-#   888  `88b.   888       o  .8'     `888.   888     d88' 
-#  o888o  o888o o888ooooood8 o88o     o8888o o888bood8P'   
-# 
-#               READ THIS BEFORE EDITING
-#
-# At every release, /README.md is overwritten with 
-# templates/README.md! Any changes not reflected 
-# there will be void at the next release! See 
-# templates/README.md for details.
-#
-# If you, for whatever reason, need to generate the file
-# manually, use:
-#     mvn resources:copy-resources@update-readme-version                                                                          
-)                                
+[//]: # (                                                                    )
+[//]: # (                                                                    )
+[//]: # (  ooooooooo.   oooooooooooo       .o.       oooooooooo.             )
+[//]: # (  `888   `Y88. `888'     `8      .888.      `888'   `Y8b            )
+[//]: # (   888   .d88'  888             .8"888.      888      888           )
+[//]: # (   888ooo88P'   888oooo8       .8' `888.     888      888           )
+[//]: # (   888`88b.     888    "      .88ooo8888.    888      888           )
+[//]: # (   888  `88b.   888       o  .8'     `888.   888     d88'           )
+[//]: # (  o888o  o888o o888ooooood8 o88o     o8888o o888bood8P'             )
+[//]: # (                                                                    )
+[//]: # (               READ THIS BEFORE EDITING                             )
+[//]: # (                                                                    )
+[//]: # ( At every release, /README.md is overwritten with                   )
+[//]: # ( templates/README.md! Any changes not reflected                     )
+[//]: # ( there will be void at the next release! See                        )    
+[//]: # ( templates/README.md for details.                                   )
+[//]: # (                                                                    )
+[//]: # ( If you, for whatever reason, need to generate the file             )
+[//]: # ( manually, use:                                                     )
+[//]: # (     mvn resources:copy-resources@update-readme-version             )                                                            
 
 # intake-spigot
 A Spigot bridge for [sk89q/Intake](https://github.com/sk89q/Intake). 
