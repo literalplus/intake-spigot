@@ -37,7 +37,9 @@ abstract library for what I needed. This includes:
 Installing this as a server owner is as easy as dropping the
 [current plugin jar](https://ci.l1t.li/job/public~intake-spigot/lastRelease/) into your server's plugins folder.
 
-Installing this as a developer is slightly more complicated, since this project isn't being deployed into Maven Central.
+Installing this as a developer is slightly more complicated, since this 
+project isn't being deployed into Maven Central. You can look up the latest version number
+[here](https://ci.l1t.li/job/public~intake-spigot/lastRelease/).
 
 ## Maven
 
@@ -53,7 +55,7 @@ Installing this as a developer is slightly more complicated, since this project 
     <groupId>li.l1t.common</groupId>
     <artifactId>intake-spigot</artifactId>
     <version>${intake-spigot.version}</version>
-    <!-- Sorry, you'll have to look the latest release up yourself, since this project releases often-ish -->
+    <!-- This project has many small releases, so it's not practicable to update the version here every time -->
   </dependency>
 </dependencies>
 ````
