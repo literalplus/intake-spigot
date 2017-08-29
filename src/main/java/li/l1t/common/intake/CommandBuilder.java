@@ -26,8 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Provides a fluent builder interface for Intake commands. Creates an Intake context for a
- * command, registers it with Bukkit and saves its metadata to the commands manager.
+ * Provides a fluent builder interface for Intake commands. Creates an Intake context for a command, registers it with
+ * Bukkit and saves its metadata to the commands manager.
  *
  * @author <a href="http://xxyy.github.io/">xxyy</a>
  * @since 2016-07-23
@@ -80,7 +80,7 @@ public class CommandBuilder {
 
     public CommandBuilder register() {
         Preconditions.checkNotNull(command, "command");
-        manager.commandRegistrationManager.registerCommand(command);
+        manager.commandRegistrationManager.registerCommand(command, manager.getFallbackPrefix());
         return this;
     }
 

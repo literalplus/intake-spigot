@@ -27,9 +27,9 @@ import org.bukkit.command.PluginIdentifiableCommand;
 import java.lang.reflect.Field;
 
 /**
- * Manages command registration for commands registered with the MTC command API. This interfaces
- * directly with the server's command map using Reflection, but stores the instance once
- * retrieved. That means that one instance can only be used for commands from the same server.
+ * Manages command registration for commands registered with the MTC command API. This interfaces directly with the
+ * server's command map using Reflection, but stores the instance once retrieved. That means that one instance can only
+ * be used for commands from the same server.
  *
  * @author <a href="http://xxyy.github.io/">xxyy</a>
  * @since 2015-12-30
@@ -44,9 +44,25 @@ public class CommandRegistrationManager {
      *
      * @param command the command to register
      * @throws IllegalStateException if retrieval of the command map fails
+     * @deprecated This method always uses the static fallback prefix "mtc". Prefer {@link #registerCommand(Command,
+     * String)}.
      */
+    @Deprecated
     public <T extends Command & PluginIdentifiableCommand> void registerCommand(T command) throws IllegalStateException {
-        getCommandMap(command.getPlugin().getServer()).register("mtc", command);
+        registerCommand(command, "mtc");
+    }
+
+    /**
+     * Attempts to register a command with the corresponding server's command map. Note that this method uses Reflection
+     * to access the command map and may fail due to that. The command map is cached once retrieved.
+     *
+     * @param command        the command to register
+     * @param fallbackPrefix the fallback prefix to use if that command's preferred name is already taken
+     * @throws IllegalStateException if retrieval of the command map fails
+     * @see CommandMap#register(String, Command)
+     */
+    public <T extends Command & PluginIdentifiableCommand> void registerCommand(T command, String fallbackPrefix) throws IllegalStateException {
+        getCommandMap(command.getPlugin().getServer()).register(fallbackPrefix, command);
     }
 
     /**

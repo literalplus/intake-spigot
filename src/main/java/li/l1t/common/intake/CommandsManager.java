@@ -34,10 +34,12 @@ import li.l1t.common.intake.i18n.Translator;
 import li.l1t.common.intake.provider.*;
 import li.l1t.common.intake.provider.annotation.*;
 import org.bukkit.Server;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import java.util.*;
 
@@ -57,6 +59,7 @@ public class CommandsManager {
     private final CommandGraph commandGraph = new CommandGraph().builder(builder);
     private final CommandHelpProvider helpProvider = new CommandHelpProvider(this);
     private final List<CommandExceptionListener> exceptionListeners = new ArrayList<>();
+    private String fallbackPrefix;
     private ErrorTranslator errorTranslator;
     private Translator translator;
 
@@ -69,6 +72,7 @@ public class CommandsManager {
         builder.setAuthorizer(new CommandSenderAuthorizer());
         bindDefaultInjections();
         putIntoNamespace(CommandsManager.class, this);
+        this.fallbackPrefix = findFallbackPrefix(plugin);
     }
 
     private void bindDefaultInjections() {
@@ -108,6 +112,15 @@ public class CommandsManager {
     public void putIntoNamespace(Object key, Object value) {
         namespaceTemplate.put(key, value);
         commandBuilders.values().forEach(builder -> builder.putIntoNamespaceIfAvailable(key, value));
+    }
+
+    private String findFallbackPrefix(Plugin plugin) {
+        PluginDescriptionFile description = plugin.getDescription();
+        if (description.getPrefix() != null) {
+            return description.getPrefix().toLowerCase().replace(" ", "-");
+        } else {
+            return description.getName().toLowerCase();
+        }
     }
 
     /**
@@ -204,5 +217,25 @@ public class CommandsManager {
     boolean callExceptionListeners(String argLine, CommandSender sender, Exception exception) {
         return exceptionListeners.stream()
                 .anyMatch(listener -> listener.handle(argLine, sender, exception));
+    }
+
+    /**
+     * @return the fallback prefix used by this manager for new registrations
+     * @see CommandRegistrationManager#registerCommand(Command, String)
+     */
+    public String getFallbackPrefix() {
+        return fallbackPrefix;
+    }
+
+    /**
+     * Sets this manager's fallback prefix. The default prefix is the prefix from {@code plugin.yml}, if set, and the
+     * plugin's name otherwise.
+     *
+     * @param newPrefix the fallback prefix to use for future command registrations
+     * @see CommandRegistrationManager#registerCommand(Command, String)
+     */
+    public void setFallbackPrefix(String newPrefix) {
+        Preconditions.checkNotNull(newPrefix, "newPrefix");
+        this.fallbackPrefix = newPrefix;
     }
 }
