@@ -198,7 +198,28 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
                 <configuration>
-                    <preparationGoals>clean verify resources:copy-resources@update-readme-version</preparationGoals>
+                    <preparationGoals>clean verify resources:copy-resources@update-readme-version exec:exec@add-readme-to-git</preparationGoals>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>add-readme-to-git</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>git</executable>
+                    <arguments>
+                        <argument>add</argument>
+                        <argument>--</argument>
+                        <argument>README.md</argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
