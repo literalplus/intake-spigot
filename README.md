@@ -90,6 +90,8 @@ Here's the code required to make XYC-Intake class and inject that:
 private void registerCommands() {
     commandsManager = new CommandsManager(plugin);
     commandsManager.setLocale(sender -> /* your command sender to locale logic */);
+    commandsManager.setLocale(Locale.ENGLISH); // use the same locale for everyone
+    // if you don't set any locale, the system default is used
     registerInjections();
     commandsManager.registerCommand(new MyCommand(), "mc", "mcalias");
 }
@@ -99,6 +101,11 @@ private void registerInjections() {
     commandsManager.bind(YourThing.class).toProvider(new YourThingProvider(thingService));
 }
 ````
+
+The `registerCommand()` method automatically takes care of registering your command with Spigot.
+Sadly, there is no public API for that, so it uses some internals for that, that may not be
+compatible with certain nasty plugins which exchange the Spigot command map with their own version -
+it should be fine for most applications though.
 
 Providers work like in Vanilla Intake. Here's an example for sake of completeness:
 
