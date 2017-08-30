@@ -16,8 +16,9 @@
 [//]: # ( templates/README.md for details.                                   )
 [//]: # (                                                                    )
 [//]: # ( If you, for whatever reason, need to generate the file             )
-[//]: # ( manually, use:                                                     )
-[//]: # (     mvn resources:copy-resources@update-readme-version             )                                                            
+[//]: # ( manually, use: [with the latest release version]                   )
+[//]: # (     mvn -DreadmeVersion=x.x.x.x \                                  )
+[//]: # (        resources:copy-resources@update-readme-version              )                                                      
 
 # intake-spigot
 A Spigot bridge for [sk89q/Intake](https://github.com/sk89q/Intake). 
@@ -61,9 +62,9 @@ Installing this as a server owner is as easy as dropping the
 Installing this as a developer is slightly more complicated, since this 
 project isn't being deployed into Maven Central.
 
-The latest release is `${project.version}`, released at `${maven.build.timestamp}`. The latest
+The latest release is `${readmeVersion}`. The latest
 git commit included in that version is
-[${buildNumber}](https://github.com/xxyy/intake-spigot/commit/${buildNumber}).
+[this one](https://github.com/xxyy/intake-spigot/releases/tag/intake-spigot-${readmeVersion}).
 
 ## Maven
 
@@ -78,7 +79,7 @@ git commit included in that version is
   <dependency>
     <groupId>li.l1t.common</groupId>
     <artifactId>intake-spigot</artifactId>
-    <version>${project.version}</version>
+    <version>${readmeVersion}</version>
   </dependency>
 </dependencies>
 ````
@@ -91,7 +92,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'li.l1t.common', name: 'intake-spigot', version: '${project.version}'
+    compile group: 'li.l1t.common', name: 'intake-spigot', version: '${readmeVersion}'
 }
 ````
 
@@ -139,6 +140,9 @@ The `registerCommand()` method automatically takes care of registering your comm
 Sadly, there is no public API for that, so it uses some internals for that, that may not be
 compatible with certain nasty plugins which exchange the Spigot command map with their own version -
 it should be fine for most applications though.
+
+Note that you need to remove the command definitions from your `plugin.yml` before Intake-Spigot
+can register them properly!
 
 Providers work like in Vanilla Intake. Here's an example for sake of completeness:
 
@@ -200,6 +204,15 @@ All contributions welcome, including further translations!
 This project uses standard IntelliJ code style. Format your code with `Alt+Shift+L`. 
 
 I recommend that you read ['Clean Code' by the awesome Robert C. Martin](https://www.google.at/webhp?q=clean+code+pdf#newwindow=1&q=clean+code+pdf).
+
+## Updating the Readme
+
+When editing the readme, you need to change the template in `docs-templates/README.md` and then
+update the actual `README.md` using:
+
+````bash
+mvn -DreadmeVersion=${readmeVersion} resources:copy-resources@update-readme-version
+````
 
 # License
 
