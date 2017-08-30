@@ -22,7 +22,7 @@
 
 # intake-spigot
 A Spigot bridge for [sk89q/Intake](https://github.com/sk89q/Intake). 
-Delivered as standalone plugin (`intake-spigot-x.y.z-plugin.jar`) or simple Maven dependency (if you prefer the shades (⌐■_■)).
+Delivered as standalone plugin (`intake-spigot-${readmeVersion}-plugin.jar`) or simple Maven dependency (if you prefer the shades (⌐■_■)).
 
 The standalone plugin currently comes with a [custom fork of Intake](https://github.com/xxyy/Intake) 
 that has some fixes necessary for some features to work. However, there are pending 
