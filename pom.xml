@@ -56,6 +56,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- maven-release-plugin -->
         <ignoreSnapshots>true</ignoreSnapshots>
+        <readmeVersion>${project.version}</readmeVersion>
     </properties>
 
     <repositories>
