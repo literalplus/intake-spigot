@@ -91,9 +91,9 @@
 
         <!-- custom fork with some fixes; for now -->
         <dependency>
-            <groupId>com.sk89q.intake</groupId>
+            <groupId>li.l1t.intake</groupId>
             <artifactId>intake</artifactId>
-            <version>xxyy-1f9714</version>
+            <version>xxyy-1277ebe</version>
         </dependency>
     </dependencies>
 
@@ -122,7 +122,7 @@
                     <artifactSet>
                         <includes>
                             <include>li.l1t.common:intake-spigot</include>
-                            <include>com.sk89q.intake:intake</include>
+                            <include>li.l1t.intake:intake</include>
                         </includes>
                     </artifactSet>
                     <shadedClassifierName>plugin</shadedClassifierName>
@@ -198,6 +198,7 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
                 <configuration>
+                    <!--suppress MavenModelInspection -->
                     <preparationGoals>
                         <![CDATA[clean verify resources:copy-resources@update-readme-version exec:exec@add-readme-to-git]]>
                     </preparationGoals>
