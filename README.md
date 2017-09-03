@@ -22,7 +22,7 @@
 
 # intake-spigot
 A Spigot bridge for [sk89q/Intake](https://github.com/sk89q/Intake). 
-Delivered as standalone plugin (`intake-spigot-4.2.32-plugin.jar`) or simple Maven dependency (if you prefer the shades (⌐■_■)).
+Delivered as standalone plugin (`intake-spigot-4.2.34-plugin.jar`) or simple Maven dependency (if you prefer the shades (⌐■_■)).
 
 The standalone plugin currently comes with a [custom fork of Intake](https://github.com/xxyy/Intake) 
 that has some fixes necessary for some features to work. However, there are pending 
@@ -62,9 +62,9 @@ Installing this as a server owner is as easy as dropping the
 Installing this as a developer is slightly more complicated, since this 
 project isn't being deployed into Maven Central.
 
-The latest release is `4.2.32`. The latest
+The latest release is `4.2.34`. The latest
 git commit included in that version is
-[this one](https://github.com/xxyy/intake-spigot/releases/tag/intake-spigot-4.2.32).
+[this one](https://github.com/xxyy/intake-spigot/releases/tag/intake-spigot-4.2.34).
 
 ## Maven
 
@@ -79,7 +79,7 @@ git commit included in that version is
   <dependency>
     <groupId>li.l1t.common</groupId>
     <artifactId>intake-spigot</artifactId>
-    <version>4.2.32</version>
+    <version>4.2.34</version>
   </dependency>
 </dependencies>
 ````
@@ -92,7 +92,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.32'
+    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.34'
 }
 ````
 
@@ -211,7 +211,7 @@ When editing the readme, you need to change the template in `docs-templates/READ
 update the actual `README.md` using:
 
 ````bash
-mvn -DreadmeVersion=4.2.32 resources:copy-resources@update-readme-version
+mvn -DreadmeVersion=4.2.34 resources:copy-resources@update-readme-version
 ````
 
 # License
