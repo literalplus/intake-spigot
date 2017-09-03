@@ -206,7 +206,7 @@ Here's another translated message:
 
 All contributions welcome, including further translations! 
 
-This project uses standard IntelliJ code style. Format your code with `Alt+Shift+L`. 
+This project uses standard IntelliJ code style. Format your code with `Ctrl+Alt+L`. 
 
 I recommend that you read ['Clean Code' by the awesome Robert C. Martin](https://www.google.at/webhp?q=clean+code+pdf#newwindow=1&q=clean+code+pdf).
 
