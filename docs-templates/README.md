@@ -176,7 +176,7 @@ public class YourThingProvider implements Provider<YourThing> {
 ````
 
 If you want to see this plugin used in an actual project, take
-a look at [Expvp](https.//github.com/xxyy/Expvp). (Note however
+a look at [Expvp](https://github.com/xxyy/Expvp). (Note however
 that it makes heavy use of dependency injection and therefore
 your own usage might differ, with some more repetitive code)
 
