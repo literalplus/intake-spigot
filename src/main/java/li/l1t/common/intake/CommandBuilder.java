@@ -20,6 +20,7 @@ package li.l1t.common.intake;
 
 import com.google.common.base.Preconditions;
 import com.sk89q.intake.dispatcher.Dispatcher;
+import com.sk89q.intake.fluent.DispatcherNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +39,7 @@ public class CommandBuilder {
     private String name;
     private List<String> aliases;
     private IntakeCommand command;
+    private DispatcherNode rootGroup;
 
     public CommandBuilder(CommandsManager manager) {
         this.manager = manager;
@@ -59,13 +61,23 @@ public class CommandBuilder {
         List<String> nameAndAliases = new ArrayList<>();
         nameAndAliases.add(name);
         nameAndAliases.addAll(aliases);
-        this.dispatcher = manager.getCommandGraph()
+        this.rootGroup = manager.getCommandGraph()
                 .commands()
-                .group(nameAndAliases.toArray(new String[nameAndAliases.size()]))
-                .registerMethods(handler)
-                .parent()
-                .graph()
-                .getDispatcher();
+                .group(nameAndAliases.toArray(new String[nameAndAliases.size()]));
+        this.dispatcher = rootGroup.registerMethods(handler)
+                .parent().graph().getDispatcher();
+        return this;
+    }
+
+    /**
+     * Adds a handler for sub-commands in a separate class from the root handler.
+     *
+     * @param handler the handler to register
+     * @param aliases the aliases (below this builder's command) to register with
+     * @return this instance
+     */
+    public CommandBuilder withSubHandler(Object handler, String... aliases) {
+        rootGroup.group(aliases).registerMethods(handler);
         return this;
     }
 
