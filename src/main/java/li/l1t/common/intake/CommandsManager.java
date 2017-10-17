@@ -55,7 +55,7 @@ public class CommandsManager {
     private final Map<Object, Object> namespaceTemplate = new HashMap<>();
     private final Map<String, CommandBuilder> commandBuilders = new HashMap<>();
     private final ParametricBuilder builder = new ParametricBuilder(Intake.createInjector());
-    private final CommonInjectorModule injectorModule;
+    private final CommonInjectorModule injectorModule = new CommonInjectorModule();
     private final CommandGraph commandGraph = new CommandGraph().builder(builder);
     private final CommandHelpProvider helpProvider = new CommandHelpProvider(this);
     private final List<CommandExceptionListener> exceptionListeners = new ArrayList<>();
@@ -67,7 +67,7 @@ public class CommandsManager {
         this.plugin = plugin;
         this.translator = new ResourceBundleTranslator();
         this.errorTranslator = new ErrorTranslator(translator);
-        builder.getInjector().install(injectorModule = new CommonInjectorModule());
+        builder.getInjector().install(injectorModule);
         builder.getInjector().install(new PrimitivesModule());
         builder.setAuthorizer(new CommandSenderAuthorizer());
         bindDefaultInjections();
@@ -111,7 +111,7 @@ public class CommandsManager {
 
     public void putIntoNamespace(Object key, Object value) {
         namespaceTemplate.put(key, value);
-        commandBuilders.values().forEach(builder -> builder.putIntoNamespaceIfAvailable(key, value));
+        commandBuilders.values().forEach(commandBuilder -> commandBuilder.putIntoNamespaceIfAvailable(key, value));
     }
 
     private String findFallbackPrefix(Plugin plugin) {
@@ -169,8 +169,8 @@ public class CommandsManager {
     }
 
     public IntakeCommand getCommand(String commandName) {
-        CommandBuilder builder = commandBuilders.get(commandName);
-        return builder == null ? null : builder.getCommand();
+        CommandBuilder commandBuilder = commandBuilders.get(commandName);
+        return commandBuilder == null ? null : commandBuilder.getCommand();
     }
 
     public ErrorTranslator getErrorTranslator() {
