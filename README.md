@@ -64,7 +64,9 @@ Note that there's two artifacts: `intake-spigot.jar`,
 which includes only the API, and `intake-spigot-4.2.34-plugin.jar`, which
 can be used as a standalone plugin that other plugins can depend on. Try not to confuse
 these two, because doing so usually causes errors and stack traces, and nobody wants that
-to happen.
+to happen. This artifact requires that [`XYC`](https://github.com/xxyy/xyc) is also
+installed as a plugin. If none of your other plugins depend on XYC, you can also use the
+special `intake-spigot-4.2.34-plugin-with-xyc.jar` which includes XYC.
 
 Installing this as a developer is slightly more complicated, since this 
 project isn't being deployed into Maven Central.

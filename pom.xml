@@ -112,22 +112,50 @@
                 <version>2.4.1</version>
                 <executions>
                     <execution>
-                        <id>shade</id>
+                        <id>shade-plugin</id>
                         <goals>
                             <goal>shade</goal>
                         </goals>
+
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>li.l1t.common:intake-spigot</include>
+                                    <include>li.l1t.intake:intake</include>
+                                </includes>
+                            </artifactSet>
+                            <shadedClassifierName>plugin</shadedClassifierName>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>shade-plugin-with-xyc</id>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>li.l1t.common:intake-spigot</include>
+                                    <include>li.l1t.intake:intake</include>
+                                    <include>li.1tt.common:*</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>li.l1t.common</pattern>
+                                    <shadedPattern>li.l1t.common.intake.lib.xyc</shadedPattern>
+                                    <excludes>
+                                        <exclude>li.l1t.common.intake.*</exclude>
+                                    </excludes>
+                                </relocation>
+                            </relocations>
+                            <shadedClassifierName>plugin-with-xyc</shadedClassifierName>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <artifactSet>
-                        <includes>
-                            <include>li.l1t.common:intake-spigot</include>
-                            <include>li.l1t.intake:intake</include>
-                        </includes>
-                    </artifactSet>
-                    <shadedClassifierName>plugin</shadedClassifierName>
-                    <shadedArtifactAttached>true</shadedArtifactAttached>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
