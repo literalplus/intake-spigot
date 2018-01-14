@@ -168,14 +168,49 @@ public class CommandsManager {
         }
     }
 
+    /**
+     * Registers a plain Intake command. The handler may be any object with {@link com.sk89q.intake.Command} methods.
+     *
+     * @param handler the handler for the command
+     * @param name    the primary alias the command is called with, e.g. "test" for calling with /test
+     * @param aliases the aliases that can also be used to call the command (optional)
+     * @see #startRegistration(Object, String, String[]) for more sophisticated setups
+     */
     public void registerCommand(Object handler, String name, String... aliases) {
-        getBuilderFor(name)
-                .withAliases(aliases)
-                .withDispatcherFor(handler)
+        startRegistration(handler, name, aliases)
                 .create()
                 .register();
     }
 
+    /**
+     * Starts the registration of an Intake command. The handler may be any object with {@link com.sk89q.intake.Command}
+     * methods. This does <b>not</b> actually register the command, but instead just creates a builder that may be
+     * configured for more sophisticated setups, for example
+     * {@link CommandBuilder#withSubHandler(Object, String...) detached sub-commands}.
+     * Make sure to call {@link CommandBuilder#create()} and {@link CommandBuilder#register()} when you're done!
+     * <p><b>Note:</b> This does register the builder for the given command name, so subsequent calls for the same
+     * name will return that builder, regardless of whether it was registered or not.</p>
+     *
+     * @param handler the handler for the command
+     * @param name    the primary alias the command is called with, e.g. "test" for calling with /test
+     * @param aliases the aliases that can also be used to call the command (optional)
+     * @return the new, unfinished command builder
+     * @see #registerCommand(Object, String, String...) for simpler use cases
+     */
+    public CommandBuilder startRegistration(Object handler, String name, String[] aliases) {
+        return getBuilderFor(name)
+                .withAliases(aliases)
+                .withDispatcherFor(handler);
+    }
+
+    /**
+     * Gets the command builder for given command name. If there is none yes, creates it.
+     * <p><b>Note:</b> This is not for command registration. Use {@link #registerCommand(Object, String, String...)} or
+     * {@link #startRegistration(Object, String, String[])} for that.</p>
+     *
+     * @param commandName the name of the command to get a builder for
+     * @return the builder for given command name
+     */
     public CommandBuilder getBuilderFor(String commandName) {
         return commandBuilders.computeIfAbsent(
                 commandName,
