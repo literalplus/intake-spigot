@@ -93,7 +93,7 @@
         <dependency>
             <groupId>li.l1t.intake</groupId>
             <artifactId>intake</artifactId>
-            <version>xxyy-1277ebe</version>
+            <version>xxyy-82322fd</version>
         </dependency>
     </dependencies>
 
