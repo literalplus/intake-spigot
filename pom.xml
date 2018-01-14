@@ -149,6 +149,7 @@
                                     <excludes>
                                         <exclude>li.l1t.common.intake.*</exclude>
                                         <exclude>li.l1t.common.IntakePlugin</exclude>
+                                        <exclude>li.l1t.common.CommandRegistrationManager</exclude>
                                     </excludes>
                                 </relocation>
                             </relocations>
