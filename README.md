@@ -22,7 +22,7 @@
 
 # intake-spigot
 A Spigot bridge for [sk89q/Intake](https://github.com/sk89q/Intake). 
-Delivered as standalone plugin (`intake-spigot-4.2.34-plugin.jar`) or simple Maven dependency (if you prefer the shades (⌐■_■)).
+Delivered as standalone plugin (`intake-spigot-4.2.35-plugin.jar`) or simple Maven dependency (if you prefer the shades (⌐■_■)).
 
 The standalone plugin currently comes with a [custom fork of Intake](https://github.com/xxyy/Intake) 
 that has some fixes necessary for some features to work. However, there are pending 
@@ -31,7 +31,7 @@ to upstream.
 Once upstream accepts the changes or introduces comparable features, the dependency will be 
 changed back.
 Namely, upstream doesn't allow more than a single `@Classifier` annotation per parameter type and 
-their `TextProvider` is broken.
+their `TextProvider` is broken. Also they don't support default commands using empty aliases.
 
 # Features
 
@@ -51,6 +51,7 @@ abstract library for what I needed. This includes:
 (such as `@ItemInHand ItemStack`, `@Merged  @Colored String`, `CommandSender`, `@Sender Player`, 
 `@OnlinePlayer Player`)
 * a intuitive builder framework
+* detached nested commands! (yay separation)
 * all that without having to shade anything 
 [(⌐■_■)](https://www.youtube.com/watch?v=X2LTL8KgKv8)
 
@@ -61,19 +62,19 @@ Installing this as a server owner is as easy as dropping the
 into your server's plugins folder.
 
 Note that there's two artifacts: `intake-spigot.jar`,
-which includes only the API, and `intake-spigot-4.2.34-plugin.jar`, which
+which includes only the API, and `intake-spigot-4.2.35-plugin.jar`, which
 can be used as a standalone plugin that other plugins can depend on. Try not to confuse
 these two, because doing so usually causes errors and stack traces, and nobody wants that
 to happen. This artifact requires that [`XYC`](https://github.com/xxyy/xyc) is also
 installed as a plugin. If none of your other plugins depend on XYC, you can also use the
-special `intake-spigot-4.2.34-plugin-with-xyc.jar` which includes XYC.
+special `intake-spigot-4.2.35-plugin-with-xyc.jar` which includes XYC.
 
 Installing this as a developer is slightly more complicated, since this 
 project isn't being deployed into Maven Central.
 
-The latest release is `4.2.34`. The latest
+The latest release is `4.2.35`. The latest
 git commit included in that version is
-[this one](https://github.com/xxyy/intake-spigot/releases/tag/intake-spigot-4.2.34).
+[this one](https://github.com/xxyy/intake-spigot/releases/tag/intake-spigot-4.2.35).
 
 ## Maven
 
@@ -88,7 +89,7 @@ git commit included in that version is
   <dependency>
     <groupId>li.l1t.common</groupId>
     <artifactId>intake-spigot</artifactId>
-    <version>4.2.34</version>
+    <version>4.2.35</version>
   </dependency>
 </dependencies>
 ````
@@ -101,11 +102,17 @@ repositories {
 }
 
 dependencies {
-    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.34'
+    compile group: 'li.l1t.common', name: 'intake-spigot', version: '4.2.35'
 }
 ````
 
 # Examples
+
+Some plugins using this library are [the Expvp minigame](https://github.com/xxyy/expvp)
+(full-blown Dependency Injection, service layer, custom everything) and
+[my test plugin](https://github.com/xxyy/intake-spigot-test). If you have written a
+Free Software and/or open-source plugin that you think could be listed here, 
+open an issue on GitHub.
 
 Here's a simple command with some custom injections:
 
@@ -225,7 +232,7 @@ When editing the readme, you need to change the template in `docs-templates/READ
 update the actual `README.md` using:
 
 ````bash
-mvn -DreadmeVersion=4.2.34 resources:copy-resources@update-readme-version
+mvn -DreadmeVersion=4.2.35 resources:copy-resources@update-readme-version
 ````
 
 # License
