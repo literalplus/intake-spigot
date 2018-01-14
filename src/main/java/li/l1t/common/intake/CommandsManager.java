@@ -174,7 +174,7 @@ public class CommandsManager {
      * @param handler the handler for the command
      * @param name    the primary alias the command is called with, e.g. "test" for calling with /test
      * @param aliases the aliases that can also be used to call the command (optional)
-     * @see #startRegistration(Object, String, String[]) for more sophisticated setups
+     * @see #startRegistration(Object, String, String...) for more sophisticated setups
      */
     public void registerCommand(Object handler, String name, String... aliases) {
         startRegistration(handler, name, aliases)
@@ -197,7 +197,7 @@ public class CommandsManager {
      * @return the new, unfinished command builder
      * @see #registerCommand(Object, String, String...) for simpler use cases
      */
-    public CommandBuilder startRegistration(Object handler, String name, String[] aliases) {
+    public CommandBuilder startRegistration(Object handler, String name, String... aliases) {
         return getBuilderFor(name)
                 .withAliases(aliases)
                 .withDispatcherFor(handler);
@@ -206,7 +206,7 @@ public class CommandsManager {
     /**
      * Gets the command builder for given command name. If there is none yes, creates it.
      * <p><b>Note:</b> This is not for command registration. Use {@link #registerCommand(Object, String, String...)} or
-     * {@link #startRegistration(Object, String, String[])} for that.</p>
+     * {@link #startRegistration(Object, String, String...)} for that.</p>
      *
      * @param commandName the name of the command to get a builder for
      * @return the builder for given command name
