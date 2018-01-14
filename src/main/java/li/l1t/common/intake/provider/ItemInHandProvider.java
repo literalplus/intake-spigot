@@ -18,9 +18,9 @@
 
 package li.l1t.common.intake.provider;
 
-import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.parametric.ProvisionException;
+import com.sk89q.intake.parametric.annotation.Optional;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -46,13 +46,15 @@ public class ItemInHandProvider extends NamespaceAwareProvider<ItemStack> {
     @Nullable
     @Override
     public ItemStack get(CommandArgs arguments, List<? extends Annotation> modifiers) throws
-            ArgumentException, ProvisionException {
+            ProvisionException {
         CommandSender sender = getFromNamespaceOrFail(arguments, CommandSender.class);
         throwLocalizedIf(!(sender instanceof Player), "PlayerOnlyCommand");
         //noinspection ConstantConditions
         Player player = (Player) sender;
         ItemStack itemInHand = player.getItemInHand();
-        throwLocalizedIf(itemInHand == null || itemInHand.getType() == Material.AIR, "NoItemInHand");
+        boolean nothingInHand = itemInHand == null || itemInHand.getType() == Material.AIR;
+        boolean optional = ProviderHelper.findAnnotationIn(modifiers, Optional.class).isPresent();
+        throwLocalizedIf(nothingInHand && !optional, "NoItemInHand");
         return itemInHand;
     }
 

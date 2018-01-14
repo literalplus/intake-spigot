@@ -23,7 +23,6 @@ import com.sk89q.intake.argument.ArgumentException;
 import com.sk89q.intake.argument.ArgumentParseException;
 import com.sk89q.intake.argument.CommandArgs;
 import com.sk89q.intake.parametric.Provider;
-import com.sk89q.intake.parametric.ProvisionException;
 import com.sk89q.intake.parametric.annotation.Validate;
 import li.l1t.common.intake.provider.annotation.Colored;
 import li.l1t.common.intake.provider.annotation.Merged;
@@ -51,7 +50,7 @@ public class MergedTextProvider implements Provider<String> {
 
     @Nullable
     @Override
-    public String get(CommandArgs args, List<? extends Annotation> modifiers) throws ArgumentException, ProvisionException {
+    public String get(CommandArgs args, List<? extends Annotation> modifiers) throws ArgumentException {
         StringBuilder textBuilder = new StringBuilder(args.next());
         while (args.hasNext()) {
             textBuilder.append(" ").append(args.next());
@@ -60,23 +59,21 @@ public class MergedTextProvider implements Provider<String> {
         return processText(text, modifiers);
     }
 
-    private String processText(String text, List<? extends Annotation> modifiers) throws ArgumentParseException, ProvisionException {
+    private String processText(String text, List<? extends Annotation> modifiers) throws ArgumentParseException {
         validateRegExIfPresent(text, modifiers);
         text = processColoredFor(text, modifiers);
         return text;
     }
 
-    private String processColoredFor(String text, List<? extends Annotation> modifiers) throws ProvisionException {
-        Colored annotation = getAnnotationFrom(modifiers, Colored.class);
-        if (annotation != null) {
-            text = ChatColor.translateAlternateColorCodes('&', text);
-        }
-        return text;
+    private String processColoredFor(String text, List<? extends Annotation> modifiers) {
+        return ProviderHelper.findAnnotationIn(modifiers, Colored.class)
+                .map(ignored -> ChatColor.translateAlternateColorCodes('&', text))
+                .orElse(text);
     }
 
     //Inspired by from Intake StringProvider - https://github.com/sk89q/Intake is licensed under the LGPL (See /LICENSE.txt)
-    protected void validateRegExIfPresent(String text, List<? extends Annotation> modifiers) throws ArgumentParseException, ProvisionException {
-        Validate validate = getAnnotationFrom(modifiers, Validate.class);
+    protected void validateRegExIfPresent(String text, List<? extends Annotation> modifiers) throws ArgumentParseException {
+        Validate validate = ProviderHelper.findAnnotationIn(modifiers, Validate.class).orElse(null);
         if (validate != null && !validate.regex().isEmpty() && !text.matches(validate.regex())) {
             throw new ArgumentParseException(
                     String.format(
@@ -85,15 +82,6 @@ public class MergedTextProvider implements Provider<String> {
         }
     }
     //End Inspired by
-
-    @SuppressWarnings("unchecked")
-    private <A extends Annotation> A getAnnotationFrom(List<? extends Annotation> modifiers,
-                                                       Class<? extends A> clazz) throws ProvisionException {
-        return modifiers.stream()
-                .filter(mod -> clazz.isAssignableFrom(mod.getClass()))
-                .map(mod -> (A) mod)
-                .findFirst().orElse(null);
-    }
 
     @Override
     public List<String> getSuggestions(String prefix) {
