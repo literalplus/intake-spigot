@@ -53,9 +53,13 @@ public class ItemInHandProvider extends NamespaceAwareProvider<ItemStack> {
         Player player = (Player) sender;
         ItemStack itemInHand = player.getItemInHand();
         boolean nothingInHand = itemInHand == null || itemInHand.getType() == Material.AIR;
-        boolean optional = ProviderHelper.findAnnotationIn(modifiers, Optional.class).isPresent();
-        throwLocalizedIf(nothingInHand && !optional, "NoItemInHand");
-        return itemInHand;
+        if (nothingInHand) {
+            boolean optional = ProviderHelper.findAnnotationIn(modifiers, Optional.class).isPresent();
+            throwLocalizedIf(!optional, "NoItemInHand");
+            return null;
+        } else {
+            return itemInHand;
+        }
     }
 
 }
