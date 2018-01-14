@@ -31,8 +31,18 @@ import li.l1t.common.intake.i18n.ErrorTranslator;
 import li.l1t.common.intake.i18n.LocaleSelectionProvider;
 import li.l1t.common.intake.i18n.ResourceBundleTranslator;
 import li.l1t.common.intake.i18n.Translator;
-import li.l1t.common.intake.provider.*;
-import li.l1t.common.intake.provider.annotation.*;
+import li.l1t.common.intake.provider.CommandSenderProvider;
+import li.l1t.common.intake.provider.ItemInHandProvider;
+import li.l1t.common.intake.provider.MergedTextProvider;
+import li.l1t.common.intake.provider.OnlinePlayerProvider;
+import li.l1t.common.intake.provider.OnlineSenderProvider;
+import li.l1t.common.intake.provider.PlayerSenderProvider;
+import li.l1t.common.intake.provider.UUIDProvider;
+import li.l1t.common.intake.provider.annotation.ItemInHand;
+import li.l1t.common.intake.provider.annotation.Merged;
+import li.l1t.common.intake.provider.annotation.OnlinePlayer;
+import li.l1t.common.intake.provider.annotation.OnlineSender;
+import li.l1t.common.intake.provider.annotation.Sender;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -41,7 +51,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Manages commands registered with Intake.
@@ -209,14 +224,34 @@ public class CommandsManager {
         this.errorTranslator.setTranslator(translator);
     }
 
+    /**
+     * Registers an exception listener that will be called when a command execution throws an exception. Note that
+     * listeners are called strictly in registration order.
+     *
+     * @param listener the listener to register
+     */
     public void addExceptionListener(CommandExceptionListener listener) {
         Preconditions.checkNotNull(listener, "listener");
         exceptionListeners.add(listener);
     }
 
+    /**
+     * Calls the registered exception listeners in order of registration, until one of them cancels the default
+     * exception handling by returning false, or there are no more listeners.
+     *
+     * @param argLine   the argument line that generated the exception
+     * @param sender    the command sender who send the argument line
+     * @param exception the exception that was caught
+     * @return whether any of the listeners cancelled the default exception handling
+     * @see CommandExceptionListener#handle(String, CommandSender, Exception)
+     */
     boolean callExceptionListeners(String argLine, CommandSender sender, Exception exception) {
-        return exceptionListeners.stream()
-                .anyMatch(listener -> listener.handle(argLine, sender, exception));
+        for (CommandExceptionListener listener : exceptionListeners) {
+            if (!listener.handle(argLine, sender, exception)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
