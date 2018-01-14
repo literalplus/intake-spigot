@@ -31,7 +31,7 @@ to upstream.
 Once upstream accepts the changes or introduces comparable features, the dependency will be 
 changed back.
 Namely, upstream doesn't allow more than a single `@Classifier` annotation per parameter type and 
-their `TextProvider` is broken.
+their `TextProvider` is broken. Also they don't support default commands using empty aliases.
 
 # Features
 
@@ -51,6 +51,7 @@ abstract library for what I needed. This includes:
 (such as `@ItemInHand ItemStack`, `@Merged  @Colored String`, `CommandSender`, `@Sender Player`, 
 `@OnlinePlayer Player`)
 * a intuitive builder framework
+* detached nested commands! (yay separation)
 * all that without having to shade anything 
 [(⌐■_■)](https://www.youtube.com/watch?v=X2LTL8KgKv8)
 
@@ -106,6 +107,12 @@ dependencies {
 ````
 
 # Examples
+
+Some plugins using this library are [the Expvp minigame](https://github.com/xxyy/expvp)
+(full-blown Dependency Injection, service layer, custom everything) and
+[my test plugin](https://github.com/xxyy/intake-spigot-test). If you have written a
+Free Software and/or open-source plugin that you think could be listed here, 
+open an issue on GitHub.
 
 Here's a simple command with some custom injections:
 
