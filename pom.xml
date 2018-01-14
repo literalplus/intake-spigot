@@ -139,7 +139,7 @@
                                 <includes>
                                     <include>li.l1t.common:intake-spigot</include>
                                     <include>li.l1t.intake:intake</include>
-                                    <include>li.1tt.common:*</include>
+                                    <include>li.l1t.common:*</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -148,6 +148,7 @@
                                     <shadedPattern>li.l1t.common.intake.lib.xyc</shadedPattern>
                                     <excludes>
                                         <exclude>li.l1t.common.intake.*</exclude>
+                                        <exclude>li.l1t.common.IntakePlugin</exclude>
                                     </excludes>
                                 </relocation>
                             </relocations>
