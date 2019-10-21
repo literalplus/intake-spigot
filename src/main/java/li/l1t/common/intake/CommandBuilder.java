@@ -69,6 +69,7 @@ public class CommandBuilder {
         return this;
     }
 
+
     /**
      * Adds a handler for sub-commands in a separate class from the root handler.
      *
@@ -77,7 +78,12 @@ public class CommandBuilder {
      * @return this instance
      */
     public CommandBuilder withSubHandler(Object handler, String... aliases) {
-        rootGroup.group(aliases).registerMethods(handler);
+        if (aliases != null && aliases.length > 0) {
+            rootGroup.group(aliases).registerMethods(handler);
+        }
+        else {
+            rootGroup.registerMethods(handler);
+        }
         return this;
     }
 
