@@ -99,6 +99,7 @@ public class CommandBuilder {
     public CommandBuilder register() {
         Preconditions.checkNotNull(command, "command");
         manager.commandRegistrationManager.registerCommand(command, manager.getFallbackPrefix());
+        manager.registerTabCompleter(command); // register the tab completer for this command.  author @jonahseguin
         return this;
     }
 
