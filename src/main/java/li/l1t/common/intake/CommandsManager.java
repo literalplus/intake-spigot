@@ -75,7 +75,6 @@ public class CommandsManager {
     private final CommandGraph commandGraph = new CommandGraph().builder(builder);
     private final CommandHelpProvider helpProvider = new CommandHelpProvider(this);
     private final List<CommandExceptionListener> exceptionListeners = new ArrayList<>();
-    private final IntakeTabCompleter tabCompleter = new IntakeTabCompleter(this); // @jonahseguin
     private String fallbackPrefix;
     private ErrorTranslator errorTranslator;
     private Translator translator;
@@ -137,20 +136,6 @@ public class CommandsManager {
             return description.getPrefix().toLowerCase().replace(" ", "-");
         } else {
             return description.getName().toLowerCase();
-        }
-    }
-
-    /**
-     * Register a {@link org.bukkit.command.TabCompleter} with Bukkit using our
-     * implementation via {@link IntakeTabCompleter}
-     * This supports tab completing suggestions for arguments provided in {@link com.sk89q.intake.parametric.Provider#getSuggestions(String)}
-     * @author jonahseguin
-     * @param command the {@link IntakeCommand} to register the tab completer for
-     */
-    void registerTabCompleter(IntakeCommand command) {
-        PluginCommand pluginCommand = this.plugin.getServer().getPluginCommand(command.getName());
-        if (pluginCommand != null) {
-            pluginCommand.setTabCompleter(this.tabCompleter);
         }
     }
 

@@ -27,6 +27,7 @@ import li.l1t.common.i18n.Message;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginIdentifiableCommand;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Collections;
@@ -38,7 +39,7 @@ import java.util.List;
  * @author <a href="http://xxyy.github.io/">xxyy</a>
  * @since 2016-07-23
  */
-public class IntakeCommand extends Command implements PluginIdentifiableCommand {
+public class IntakeCommand extends Command implements PluginIdentifiableCommand, TabCompleter {
     private final CommandsManager manager;
     private final Dispatcher dispatcher;
     private final Namespace namespace = new Namespace();
@@ -147,5 +148,10 @@ public class IntakeCommand extends Command implements PluginIdentifiableCommand 
         } catch (CommandException e) {
             return ImmutableList.of();
         }
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        return this.tabComplete(sender, command.getName(), args);
     }
 }

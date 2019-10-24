@@ -80,21 +80,21 @@
         <dependency>
             <groupId>li.l1t.common</groupId>
             <artifactId>xyc-api-spigot</artifactId>
-            <version>4.4.2</version>
+            <version>4.5.7-SNAPSHOT</version>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>com.sk89q.intake</groupId>
             <artifactId>intake</artifactId>
             <version>4.2-SNAPSHOT</version>
-        </dependency>-->
+        </dependency>
 
         <!-- custom fork with some fixes; for now -->
-        <dependency>
+        <!--<dependency>
             <groupId>li.l1t.intake</groupId>
             <artifactId>intake</artifactId>
             <version>xxyy-82322fd</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
